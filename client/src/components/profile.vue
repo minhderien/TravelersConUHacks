@@ -7,16 +7,15 @@
                     color="basil"
                     grow
             >
-                <v-tab>Pictures</v-tab>
-                <v-tab>Galleries</v-tab>
-                <v-tab>Information</v-tab>
+                <v-tab>Map</v-tab>
+                <v-tab>Chat</v-tab>
+
 
                 <v-tab-item>
-
+                    <mapComponent></mapComponent>
                 </v-tab-item>
                 <v-tab-item>
-                </v-tab-item>
-                <v-tab-item>
+                    <chat></chat>
                 </v-tab-item>
             </v-tabs>
         </div>
@@ -24,9 +23,13 @@
 </template>
 
 <script>
+    import chat from "./chat";
+    import mapComponent from "./mapComponent";
     export default {
         name: 'profile',
         components : {
+            chat,
+            mapComponent,
         },
         props: {
         },
