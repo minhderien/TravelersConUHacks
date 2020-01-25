@@ -12,12 +12,12 @@
 
 
                 <v-tab-item>
-                    <mapComponent></mapComponent>
                 </v-tab-item>
                 <v-tab-item>
                     <chat></chat>
                 </v-tab-item>
             </v-tabs>
+                <mapComponent></mapComponent>
         </div>
     </div>
 </template>
