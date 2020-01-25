@@ -24,6 +24,7 @@ export default {
     }
   },
   methods: {
+    // eslint-disable-next-line no-unused-vars
     send (event) {
       this.$emit('newOwnMessage')
     }

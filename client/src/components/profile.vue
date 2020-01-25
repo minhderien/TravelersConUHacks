@@ -19,6 +19,7 @@
                     <BasicVueChat></BasicVueChat>
                 </v-tab-item>
             </v-tabs>
+                
         </div>
     </div>
 </template>

@@ -11,6 +11,7 @@
 export default {
   name: 'InputButton',
   methods: {
+    // eslint-disable-next-line no-unused-vars
     send (event) {
       this.$emit('newOwnMessage')
     }
