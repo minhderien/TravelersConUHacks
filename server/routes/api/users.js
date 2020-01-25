@@ -2,16 +2,15 @@ const express = require('express');
 const bcrypt = require('bcrypt-nodejs');
 const User = require('../../models/User')
 const passport = require('passport');
-
+ 
 const router = express.Router();
 
 // User login
-router.post('/login', (req, res, next) => {
-    passport.authenticate('local', {
-        successRedirect: '/'
-    })(req, res, next);
-});
-
+router.post('/login',
+  passport.authenticate('local'), function(req, res) {
+    res.redirect('/api/users/' + req.user.id);
+  });
+ 
 router.get('/logout', (req, res) => {
     req.logout();
     res.send('logged out');
@@ -32,20 +31,17 @@ router.post('/register', (req, res) => {
                 password,
                 country
             });
+            bcrypt.hash(newUser.password, null, null, function(err, hash) {
+                // Store hash in your password DB.
+                newUser.password = hash;
 
-                // Hash password
-            bcrypt.genSalt(10, (err, salt) => 
-                bcrypt.hash(newUser.password, salt, (err, hash) => {
-                    if (err) throw err;
-
-                    newUser.password = hash;
-
-                    newUser.save()
-                        .then(user => {
-                            res.status(200);
-                        })
-                        .catch(err => console.log(err));
-            }));
+                newUser.save()
+                    .then(user => {
+                        res.status(200);
+                    })
+                    .catch(err => console.log(err));
+              });
+            
         } else {
             res.send('User already exists');
         }
@@ -69,9 +65,10 @@ router.get('/', async (req, res) => {
 
 // Get user by ID
 router.get('/:id', async (req, res) => {
-
-    User.findById(req.query.id, function (err, user) {
-        res.send(user);  
+    console.log(req.params.id);
+    User.findById(req.params.id, function (err, user) {
+        console.log(user);
+        res.send({ name: user.name, country:user.country});  
     });
 });
 

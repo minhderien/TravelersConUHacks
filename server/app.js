@@ -8,6 +8,8 @@ const app = express();
 
 // Passport config
 require('./config/passport')(passport);
+app.use(passport.initialize());
+app.use(passport.session());
 
 // DB config
 const db = require('./config/keys').MongoURI;
