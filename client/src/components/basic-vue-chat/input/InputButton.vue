@@ -11,7 +11,9 @@
 export default {
   name: 'InputButton',
   methods: {
+ 
     send () {
+ 
       this.$emit('newOwnMessage')
     }
   }

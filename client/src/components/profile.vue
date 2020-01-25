@@ -11,6 +11,7 @@
                         <div>
                        <h2>Friends List</h2>
 
+
                         <v-list>
                             <v-list-item 
                             :key="i" 
@@ -43,6 +44,7 @@
                     </v-row>
                
           
+
         </div>
     </div>
 </template>
