@@ -3,10 +3,14 @@
 
         <v-container>
             <h2>Create</h2>
-
+            <v-text-field
+                    v-model="name"
+                    label="Name"
+                    required
+            ></v-text-field>
             <v-text-field
                     v-model="email"
-                    :rules="emailRules"
+                   
                     label="Email"
                     required
             ></v-text-field>
@@ -17,17 +21,11 @@
             ></v-text-field>
             <v-text-field
                     v-model="password"
-                    :rules="passwordRules"
+                   :type="'password'"
                     label="New Password"
                     required
             ></v-text-field>
-            <v-text-field
-                    v-model="confirmPassword"
-                    :rules="passwordRules"
-                    label="Confirm Password"
-                    required
-            ></v-text-field>
-            <v-btn rounded dark color="Grey">
+            <v-btn @click="register()" rounded dark color="Grey">
                 Create Account
             </v-btn>
 
@@ -38,21 +36,43 @@
 </template>
 
 <script>
+    import axios from 'axios'
     export default {
-        name: 'login',
+        name: 'create',
         props: {
         },
         data() {
             return {
                 email: '',
                 password: '',
-                confirmPassword: '',
-                country: ''
+                country: '',
+                name: ''
             }
 
         },
         methods: {
+            register(){
+                axios.post('http://localhost:5000/api/users/register', null, {credentials: 'include', data : {
+                        email :this.email,
+                        password: this.password,
+                        country: this.country,
+                        name: this.name
+                    }}).then(response => {
+                    // eslint-disable-next-line no-console
+                        console.log(response)
+                        if(response.status == 200 ){
 
+                            this.$router.push('Profile')
+                        }
+
+                    }).catch(error => {
+                    // eslint-disable-next-line no-console
+                        console.log(error);
+                        this.error = error
+                        this.snackbar = true;
+
+                });
+            }
         }
     }
 </script>
