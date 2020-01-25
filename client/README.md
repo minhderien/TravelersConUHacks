@@ -1,4 +1,4 @@
-# client
+# instagram-lite
 
 ## Project setup
 ```
