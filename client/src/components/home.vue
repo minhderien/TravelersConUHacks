@@ -113,7 +113,9 @@
                                 <v-list-item-content>
                                     <div class="overline mb-4"></div>
                                     <v-list-item-title class="headline mb-1">Join us !</v-list-item-title>
-                                    <v-list-item-subtitle>Join dozens of users in this new experience !</v-list-item-subtitle>
+                                    <v-list-item-subtitle>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+
+                                        !</v-list-item-subtitle>
                                 </v-list-item-content>
                                 <v-list-item-avatar
                                         tile
@@ -176,9 +178,6 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-    .buttons{
-
-    }
     .text2{
         border-radius: 150px;
         position: absolute;

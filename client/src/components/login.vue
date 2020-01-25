@@ -1,33 +1,36 @@
 <template>
-    <div class="login">
+    <div class="background">
 
         <v-container>
-            <h2>Login</h2>
+            <div class="login">
+                <h2>Login</h2>
 
-            <v-text-field
-                    v-model="email"
-                    label="Email"
-                    required
-            ></v-text-field>
-            <v-text-field
-                    :type="'password'"
-                    v-model="password"
-                    label="Password"
-                    required
-            ></v-text-field>
-            <v-btn @click="login()" rounded dark color="Grey">
-                Login
-            </v-btn>
-            <v-btn @click="create()" rounded dark color="Grey">
-                Register
-            </v-btn>
-            <span></span>
-            <v-snackbar v-model="snackbar" >
-                {{error}}
-                <v-btn color="red" text @click="snackbar = false">
-                    Close
+                <v-text-field
+                        v-model="email"
+                        label="Email"
+                        required
+                ></v-text-field>
+                <v-text-field
+                        :type="'password'"
+                        v-model="password"
+                        label="Password"
+                        required
+                ></v-text-field>
+                <v-btn @click="login()" rounded dark color="Grey">
+                    Login
                 </v-btn>
-            </v-snackbar>
+                <v-btn @click="create()" rounded dark color="Grey">
+                    Register
+                </v-btn>
+                <span></span>
+                <v-snackbar v-model="snackbar" >
+                    {{error}}
+                    <v-btn color="red" text @click="snackbar = false">
+                        Close
+                    </v-btn>
+                </v-snackbar>
+            </div>
+
 
         </v-container>
     </div>
@@ -86,7 +89,15 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-    .information {
+    .background{
+        background-image: url("../assets/BackgroundRegister.jpeg");
+        background-size:     cover;                      /* <------ */
+        background-repeat:   no-repeat;
+        background-position: center center;
+        height: 900px;
+    }
+    .login {
+        padding-top: 20%;
         margin: auto;
         width: 50%;
         display:block

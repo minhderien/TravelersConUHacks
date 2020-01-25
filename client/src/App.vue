@@ -19,6 +19,9 @@
             >
             </v-img>
           </router-link>
+        </div>
+
+          <v-spacer></v-spacer>
           <div v-if="this.$store.getters.user">
             <router-link :to="{name: 'Profile'}">
               <v-btn icon>
