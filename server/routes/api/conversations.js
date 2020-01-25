@@ -72,7 +72,8 @@ router.post('/new/:recipientId', (req, res, next) => {
       }
     
       const conversation = new Conversation({
-        participants: ['5e2bba66222c4f57b8e13b18', '5e2c770532edc50a94327c93']//[req.user._id, req.params.recipient]
+        // ['5e2bba66222c4f57b8e13b18', '5e2c770532edc50a94327c93']//
+        participants: [req.user._id, req.params.recipient]
       });
     
       conversation.save((err, newConversation) => {
@@ -84,7 +85,7 @@ router.post('/new/:recipientId', (req, res, next) => {
         const message = new Message({
           conversationId: newConversation._id,
           body: req.body.composedMessage,
-          author: '5e2bba66222c4f57b8e13b18'//req.user._id
+          author: req.user._id
         });
     
         message.save((err, newMessage) => {
@@ -105,7 +106,7 @@ router.post('/:conversationId', (req, res, next) => {
     const reply = new Message({
         conversationId: req.params.conversationId,
         body: req.body.composedMessage,
-        author: '5e2bba66222c4f57b8e13b18'//req.user._id
+        author: req.user._id
       });
     
       reply.save((err, sentReply) => {
