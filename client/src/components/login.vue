@@ -61,8 +61,10 @@
                     // eslint-disable-next-line no-console
                      
                         if(response.status ==200 ){
-                            
-                            this.$router.push('Profile')
+                             this.$store.commit('changeUser', response.data.name);
+                             this.$store.commit('changeCountry', response.data.country);
+                             this.$router.push('Profile')
+
                         }
 
                     }).catch(error => {
