@@ -4,12 +4,17 @@ import profile from '../components/profile'
 
 import login from "../components/login"
 import create from "../components/create"
-
+import home from "../components/home"
 
 Vue.use(Router)
 
 export default new Router({
     routes: [
+        {
+            path: '/',
+            name: 'home',
+            component: home,
+        },
         {
             path: '/Profile',
             name: 'Profile',
@@ -24,6 +29,11 @@ export default new Router({
             path: '/create',
             name: 'Create',
             component: create
+        },
+        {
+            path: '/home',
+            name: 'Home',
+            component: home
         }
     ]
 })
