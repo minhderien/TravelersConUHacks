@@ -75,7 +75,7 @@ router.get('/:id', async (req, res) => {
 
 // Get list of users of active conversations
 router.get('/active/conversations', async (req, res) => {
-    Conversation.find({ participants: '5e2bba66222c4f57b8e13b18' }) //req.user._id
+    Conversation.find({ participants: req.user._id }) //'5e2bba66222c4f57b8e13b18'
         .exec((err, conversations) => {
             if (err) {
                 res.send({ error: err });
@@ -87,18 +87,16 @@ router.get('/active/conversations', async (req, res) => {
             conversations.forEach((conversation) => {
                 conversation.participants.forEach((participantId) => {
                     // If it's not himself
-                    if ('5e2bba66222c4f57b8e13b18' != participantId) {
+                    if (req.user._id != participantId) {
                         participantsIds.push(participantId);
                     }
                 });
             });
-            
-            var query = User.find({_id: {$in:participantsIds}});
-            query.exec(function(err, users) {              
+
+            var query = User.find({ _id: { $in: participantsIds } });
+            query.exec(function (err, users) {
                 return res.status(200).send(users);
             });
-
-            
         });
 });
 
