@@ -6,7 +6,7 @@ const router = express.Router();
 
 // Get active conversations
 router.get('/active', (req, res) => {
-    Conversation.find({ participants: '5e2bba66222c4f57b8e13b18' }) //req.user._id
+    Conversation.find({ participants: req.user._id }) //req.user._id
         .exec((err, conversations) => {
             if (err) {
                 res.send({ error: err });
@@ -120,7 +120,7 @@ router.post('/:conversationId', (req, res, next) => {
     const reply = new Message({
         conversationId: req.params.conversationId,
         body: req.body.composedMessage,
-        author: '5e2c770532edc50a94327c93'//
+        author: req.user._id//
     });
 
     reply.save((err, sentReply) => {
