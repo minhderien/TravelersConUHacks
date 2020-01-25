@@ -12,7 +12,9 @@
           <router-link :to="{name: 'Feed'}">
             <v-toolbar-title>TravelersConUHacks</v-toolbar-title>
           </router-link>
+
           <v-spacer></v-spacer>
+          
           <v-btn icon>
             <v-icon>mdi-magnify</v-icon>
           </v-btn>

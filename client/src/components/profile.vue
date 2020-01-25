@@ -10,9 +10,21 @@
                 <v-tab>Map</v-tab>
                 <v-tab>Chat</v-tab>
 
-
+                
                 <v-tab-item>
-                    <mapComponent></mapComponent>
+                    <v-row
+          :align="alignment"
+          :justify="justify"
+          class="grey lighten-5"
+          style="height: 300px;"
+        >
+                    <v-col cols="3">
+                        <friendListComponent></friendListComponent>
+                    </v-col>
+                    <v-col cols="9">
+                        <mapComponent></mapComponent>
+                    </v-col>
+                    </v-row>
                 </v-tab-item>
                 <v-tab-item>
                     <chat></chat>
@@ -25,11 +37,13 @@
 <script>
     import chat from "./chat";
     import mapComponent from "./mapComponent";
+    import friendListComponent from "./friendListComponent"
     export default {
         name: 'profile',
         components : {
             chat,
             mapComponent,
+            friendListComponent
         },
         props: {
         },
