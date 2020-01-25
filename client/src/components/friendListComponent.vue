@@ -7,7 +7,7 @@
         <v-list-item 
         :key="i" 
         v-for="(item, i) in friends"
-        :inactive="inactive" @click="test()">
+        :inactive="inactive" @click="showChat()">
             <v-list-item-content>
                 {{ item.name }} {{item.country}}
             </v-list-item-content>

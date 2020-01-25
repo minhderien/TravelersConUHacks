@@ -24,7 +24,7 @@ export default {
     }
   },
   methods: {
-    send (event) {
+    send () {
       this.$emit('newOwnMessage')
     }
   }
