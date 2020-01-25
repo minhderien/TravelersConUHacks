@@ -1,4 +1,4 @@
-# instagram-lite
+# TravelersConuHacks
 
 ## Project setup
 ```

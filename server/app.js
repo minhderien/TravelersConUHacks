@@ -8,6 +8,8 @@ const app = express();
 
 // Passport config
 require('./config/passport')(passport);
+app.use(passport.initialize());
+app.use(passport.session());
 
 // DB config
 const db = require('./config/keys').MongoURI;
@@ -23,8 +25,10 @@ app.use(bodyParser.json());
 app.use(cors());
 
 const users = require('./routes/api/users');
+const conversations = require('./routes/api/conversations');
 
 app.use('/api/users', users);
+app.use('/api/conversations', conversations);
 
 const port = process.env.PORT || 5000;
 

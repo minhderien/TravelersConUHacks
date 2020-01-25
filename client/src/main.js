@@ -5,17 +5,17 @@ import vuetify from './plugins/vuetify';
 //import vueGoogleMaps from './plugins/googlemap';
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import '@mdi/font/css/materialdesignicons.css'
-import * as VueGoogleMaps from "vue2-google-maps";
+import {store} from './store/store'
 
 Vue.config.productionTip = false;
 
 
 new Vue({
-  router,
-  render: h => h(App),
-  vuetify,
-//  vueGoogleMaps
-}).$mount('#app');
+    router,
+    render: h => h(App),
+    vuetify,
+    store
+}).$mount('#app')
 
 Vue.use(VueGoogleMaps, {
   load: {

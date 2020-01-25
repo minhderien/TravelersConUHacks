@@ -10,12 +10,16 @@
                     required
             ></v-text-field>
             <v-text-field
+                    :type="'password'"
                     v-model="password"
                     label="Password"
                     required
             ></v-text-field>
-            <v-btn v-on:click="login()" rounded dark color="Grey">
+            <v-btn @click="login()" rounded dark color="Grey">
                 Login
+            </v-btn>
+            <v-btn @click="create()" rounded dark color="Grey">
+                Register
             </v-btn>
             <span></span>
             <v-snackbar v-model="snackbar" >
@@ -31,6 +35,7 @@
 
 <script>
     import axios from 'axios'
+
     export default {
         name: 'login',
         props: {
@@ -47,17 +52,19 @@
         },
         methods: {
             login(){
+             var link = "http://localhost:5000/api/users/login";    
                 // eslint-disable-next-line no-console
-                console.log("test")
-                axios.post('http://localhost:8081/login', null, {credentials: 'include', data : {
+                axios.post(link, null, {credentials: 'include', data : {
                         email :this.email,
                         password: this.password
                     }}).then(response => {
                     // eslint-disable-next-line no-console
-                        console.log(response)
+                     
                         if(response.status ==200 ){
+                             this.$store.commit('changeUser', response.data.name);
+                             this.$store.commit('changeCountry', response.data.country);
+                             this.$router.push('Profile')
 
-                            this.$router.push('Profile')
                         }
 
                     }).catch(error => {
@@ -67,6 +74,9 @@
                         this.snackbar = true;
 
                 });
+            },
+            create(){
+                location.href = "/#/create"
             }
         }
 

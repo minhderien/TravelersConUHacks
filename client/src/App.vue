@@ -1,3 +1,4 @@
+
 <template>
   <v-app>
     <div id="app">
@@ -16,17 +17,17 @@
           <v-btn icon>
             <v-icon>mdi-magnify</v-icon>
           </v-btn>
-          <div v-if="!user"> <!--switch to user-->
+          <div v-if="this.$store.getters.user">
             <router-link :to="{name: 'Profile'}">
               <v-btn icon>
                 <v-icon>mdi-account</v-icon>
               </v-btn>
             </router-link>
-            <v-btn icon>
+            <v-btn @click="logout()" icon>
               Logout
             </v-btn>
           </div>
-          <div v-if="user"><!--switch to !user-->
+          <div v-if="!this.$store.getters.user"><!--switch to !user-->
             <router-link :to="{name: 'Login'}">
               <v-btn icon>
                Login
@@ -45,6 +46,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+ 
 
 export default {
   name: 'App',
@@ -52,10 +55,29 @@ export default {
   components: {
 
   },
+ created: function (){
 
+ },
   data: () => ({
-    user : '',
+    user : ''
 
   }),
+  methods: {
+
+    logout(){
+       var link = "http://localhost:5000/api/users/logout";
+       axios.get(link, null, {credentials: 'include', data : {
+                        
+                    }}).then(response => {
+                      
+                      if(response){
+                          this.$router.push("/login");
+                          this.$store.commit('changeUser', null);
+                          this.$store.commit('changeCountry', null);
+                      }
+                    });
+    }
+  }
 };
+
 </script>

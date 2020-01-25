@@ -18,7 +18,8 @@
     "mongoose": "^5.8.9",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
-    "server": "^1.0.22"
+    "server": "^1.0.22",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
