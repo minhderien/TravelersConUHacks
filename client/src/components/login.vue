@@ -6,13 +6,11 @@
 
             <v-text-field
                     v-model="email"
-
                     label="Email"
                     required
             ></v-text-field>
             <v-text-field
                     v-model="password"
-
                     label="Password"
                     required
             ></v-text-field>
@@ -20,25 +18,6 @@
                 Login
             </v-btn>
             <span></span>
-            <v-btn rounded  dark color="Grey">
-                Login with Facebook
-            </v-btn>
-            <v-btn rounded  dark color="Grey">
-                Login with Google
-            </v-btn>
-            <v-btn rounded  dark color="Grey">
-                Login with Instagram
-            </v-btn>
-            <router-link :to="{name: 'Forgot'}">
-                <v-btn rounded  dark color="Grey">
-                    Forgot Password ?
-                </v-btn>
-            </router-link>
-            <router-link :to="{name: 'Create'}">
-                <v-btn rounded  dark color="Grey">
-                    Create Account
-                </v-btn>
-            </router-link>
             <v-snackbar v-model="snackbar" >
                 {{error}}
                 <v-btn color="red" text @click="snackbar = false">

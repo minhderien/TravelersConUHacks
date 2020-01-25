@@ -39,7 +39,7 @@
 
 <script>
     export default {
-        name: 'login',
+        name: 'chat',
         props: {
         },
         data() {

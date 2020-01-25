@@ -7,18 +7,15 @@
                     color="basil"
                     grow
             >
-                <v-tab>Pictures</v-tab>
-                <v-tab>Galleries</v-tab>
-                <v-tab>Information</v-tab>
+                <v-tab>Map</v-tab>
+                <v-tab>Chat</v-tab>
+
 
                 <v-tab-item>
-                    <pictures></pictures>
+                    <mapComponent></mapComponent>
                 </v-tab-item>
                 <v-tab-item>
-                    <galleries></galleries>
-                </v-tab-item>
-                <v-tab-item>
-                    <information></information>
+                    <chat></chat>
                 </v-tab-item>
             </v-tabs>
         </div>
@@ -26,15 +23,13 @@
 </template>
 
 <script>
-    import pictures from "../../../../InstagramLite-Vduplessis/src/components/pictures";
-    import galleries from "../../../../InstagramLite-Vduplessis/src/components/galleries"
-    import information from "../../../../InstagramLite-Vduplessis/src/components/information"
+    import chat from "./chat";
+    import mapComponent from "./mapComponent";
     export default {
         name: 'profile',
         components : {
-            pictures,
-            galleries,
-            information,
+            chat,
+            mapComponent,
         },
         props: {
         },
