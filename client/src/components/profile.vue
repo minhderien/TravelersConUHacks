@@ -13,12 +13,13 @@
 
 
                 <v-tab-item>
+                    <mapComponent></mapComponent>
                 </v-tab-item>
                 <v-tab-item>
                     <BasicVueChat></BasicVueChat>
                 </v-tab-item>
             </v-tabs>
-                <mapComponent></mapComponent>
+                
         </div>
     </div>
 </template>
