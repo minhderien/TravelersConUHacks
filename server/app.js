@@ -23,8 +23,10 @@ app.use(bodyParser.json());
 app.use(cors());
 
 const users = require('./routes/api/users');
+const conversations = require('./routes/api/conversations');
 
 app.use('/api/users', users);
+app.use('/api/conversations', conversations);
 
 const port = process.env.PORT || 5000;
 
