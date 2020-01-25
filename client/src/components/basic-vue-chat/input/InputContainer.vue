@@ -18,17 +18,15 @@
 <script>
 import InputField from './InputField.vue'
 import InputButton from './InputButton.vue'
-import { Picker } from 'emoji-mart-vue'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
 
 
 export default {
   name: 'InputContainer',
   components: {
-      FontAwesomeIcon,
       InputField,
       InputButton,
-      Picker
+    
   },
   props: {
     toggleEmojiPicker: {

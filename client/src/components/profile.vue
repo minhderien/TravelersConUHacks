@@ -2,24 +2,49 @@
 <template>
     <div class="profile">
         <div class="ProfilePic">
-            <v-tabs
-                    v-model="tab"
-                    background-color="transparent"
-                    color="basil"
-                    grow
-            >
-                <v-tab>Map</v-tab>
-                <v-tab>Chat</v-tab>
+        <v-row
+      
+          class="grey lighten-5"
+          style="height: 300px;"
+        >
+                    <v-col cols="3">
+                        <div>
+                       <h2>Friends List</h2>
 
 
-                <v-tab-item>
-                    <mapComponent></mapComponent>
-                </v-tab-item>
-                <v-tab-item>
-                    <BasicVueChat></BasicVueChat>
-                </v-tab-item>
-            </v-tabs>
-                
+                        <v-list>
+                            <v-list-item 
+                            :key="i" 
+                            :flat="true"
+                            :subheader="true"
+                            :nav="true"
+                            :two-line="true"
+                            v-for="(item, i) in friends"
+                             :class="{'active': i == activeIndex}"
+                             @click="showChat(i, item.name)">
+                             
+                                <v-list-item-content>
+                                    <v-list-item-title >{{item.name}} - <span class="displayCountry">{{item.country}}</span></v-list-item-title>
+                                <v-list-item-subtitle><span class="MessageFriendList">Message :</span>{{i}} </v-list-item-subtitle>
+                                </v-list-item-content>
+                            </v-list-item>
+                        </v-list>
+                        </div>
+                    </v-col>
+                    <v-col cols="9">
+                        <div v-if="mapActive">
+                        <mapComponent></mapComponent>
+                        </div>
+                         
+                            <div v-if="!mapActive">
+                        <BasicVueChat></BasicVueChat>
+                            </div>
+                       
+                    </v-col>
+                    </v-row>
+               
+          
+
         </div>
     </div>
 </template>
@@ -31,7 +56,7 @@
         name: 'profile',
         components : {
             mapComponent,
-            BasicVueChat,
+             BasicVueChat,
         },
         created : function(){
             // eslint-disable-next-line no-console
@@ -41,7 +66,35 @@
         },
         data() {
             return {
-                cards: []
+                cards: [],
+                mapActive: true,
+                activeIndex: null,
+                friends: [{
+                    name: "salim",
+                    country: "Canada",
+                    
+                },{
+                    name: "minh",
+                    country: "Canada",
+                 },{
+                    name: "Vincent",
+                    country: "Canada",
+                 }]
+            }
+        },
+        methods: {
+            showChat(i,name){
+
+                this.$store.commit('changeActiveChat', name);
+                this.activeIndex = i;
+                this.mapActive = false;
+                document.getElementById('chatboxTitle').innerHTML = name;
+            },
+            showMap(){
+                this.$store.commit('changeActiveChat', null);
+      
+                this.activeIndex = null;
+                this.mapActive = true;
             }
         }
     }
@@ -66,5 +119,18 @@
     }
     a {
         color: #42b983;
+    }
+    .nameFriendList{
+        color:black;
+        font-weight:bold;
+        font-size: 16px;
+
+    }
+    .v-list-item.active{
+        background-color:   #fdcece
+;
+    }
+    .displayCountry{
+        color: grey;
     }
 </style>
