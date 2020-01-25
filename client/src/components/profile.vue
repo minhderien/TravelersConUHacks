@@ -1,3 +1,4 @@
+
 <template>
     <div class="profile">
         <div class="ProfilePic">
@@ -15,7 +16,7 @@
                     <mapComponent></mapComponent>
                 </v-tab-item>
                 <v-tab-item>
-                    <chat></chat>
+                    <BasicVueChat></BasicVueChat>
                 </v-tab-item>
             </v-tabs>
         </div>
@@ -23,13 +24,17 @@
 </template>
 
 <script>
-    import chat from "./chat";
     import mapComponent from "./mapComponent";
+    import BasicVueChat from './basic-vue-chat/BasicVueChat'
     export default {
         name: 'profile',
         components : {
-            chat,
             mapComponent,
+            BasicVueChat,
+        },
+        created : function(){
+            // eslint-disable-next-line no-console
+           console.log(this.$store.getters.user);
         },
         props: {
         },
