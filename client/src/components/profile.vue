@@ -12,13 +12,11 @@
                 <v-tab>Information</v-tab>
 
                 <v-tab-item>
-                    <pictures></pictures>
+
                 </v-tab-item>
                 <v-tab-item>
-                    <galleries></galleries>
                 </v-tab-item>
                 <v-tab-item>
-                    <information></information>
                 </v-tab-item>
             </v-tabs>
         </div>
@@ -26,15 +24,9 @@
 </template>
 
 <script>
-    import pictures from "../../../../InstagramLite-Vduplessis/src/components/pictures";
-    import galleries from "../../../../InstagramLite-Vduplessis/src/components/galleries"
-    import information from "../../../../InstagramLite-Vduplessis/src/components/information"
     export default {
         name: 'profile',
         components : {
-            pictures,
-            galleries,
-            information,
         },
         props: {
         },
