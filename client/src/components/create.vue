@@ -11,6 +11,11 @@
                     required
             ></v-text-field>
             <v-text-field
+                    v-model="country"
+                    label="Country"
+                    required
+            ></v-text-field>
+            <v-text-field
                     v-model="password"
                     :rules="passwordRules"
                     label="New Password"
@@ -42,6 +47,7 @@
                 email: '',
                 password: '',
                 confirmPassword: '',
+                country: ''
             }
 
         },
