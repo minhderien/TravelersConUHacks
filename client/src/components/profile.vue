@@ -32,6 +32,10 @@
             mapComponent,
             BasicVueChat,
         },
+        created : function(){
+            // eslint-disable-next-line no-console
+           console.log(this.$store.getters.user);
+        },
         props: {
         },
         data() {
