@@ -8,15 +8,20 @@
               flat
               tile
       >
-        <v-toolbar dense>
-
-          <router-link :to="{name: 'Feed'}">
-            <v-toolbar-title>TravelersConUHacks</v-toolbar-title>
+        <v-toolbar>
+        <div class="logo">
+          <router-link :to="{name: 'Home'}">
+            <v-img
+                    height="200px"
+                    width="200px"
+                    contain
+                    src="./assets/logo.png"
+            >
+            </v-img>
           </router-link>
+        </div>
+
           <v-spacer></v-spacer>
-          <v-btn icon>
-            <v-icon>mdi-magnify</v-icon>
-          </v-btn>
           <div v-if="this.$store.getters.user">
             <router-link :to="{name: 'Profile'}">
               <v-btn icon>
@@ -38,6 +43,7 @@
         </v-toolbar>
       </v-card>
       <v-content>
+        <Home></Home>
         <router-view></router-view>
       </v-content>
     </div>
@@ -47,6 +53,7 @@
 
 <script>
 import axios from 'axios'
+
  
 
 export default {
@@ -81,3 +88,9 @@ export default {
 };
 
 </script>
+
+<style>
+  .logo{
+
+  }
+</style>
