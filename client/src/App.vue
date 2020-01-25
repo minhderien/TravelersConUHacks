@@ -1,3 +1,4 @@
+
 <template>
   <v-app>
     <div id="app">
@@ -18,7 +19,7 @@
           <v-btn icon>
             <v-icon>mdi-magnify</v-icon>
           </v-btn>
-          <div v-if="user"> <!--switch to user-->
+          <div v-if="this.$store.getters.user">
             <router-link :to="{name: 'Profile'}">
               <v-btn icon>
                 <v-icon>mdi-account</v-icon>
@@ -28,7 +29,7 @@
               Logout
             </v-btn>
           </div>
-          <div v-if="!user"><!--switch to !user-->
+          <div v-if="!this.$store.getters.user"><!--switch to !user-->
             <router-link :to="{name: 'Login'}">
               <v-btn icon>
                Login
@@ -56,12 +57,11 @@ export default {
   components: {
 
   },
+ created: function (){
 
+ },
   data: () => ({
-    user : {
-    
-
-    },
+    user : ''
 
   }),
   methods: {
@@ -73,7 +73,9 @@ export default {
                     }}).then(response => {
                       
                       if(response){
-                        this.$router.push("/login")
+                          this.$router.push("/login");
+                          this.$store.commit('changeUser', null);
+                          this.$store.commit('changeCountry', null);
                       }
                     });
     }
