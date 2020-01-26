@@ -84,8 +84,8 @@
             getUsers(){
                 var promise1 = axios.get('http://localhost:5000/api/users/active/conversations', {headers: {userId: this.$store.getters.userId}})
                     .then(function (res) {
-
-
+                        // eslint-disable-next-line no-console
+                        console.log(res);
                         return res.data
 
 
@@ -93,15 +93,31 @@
                     });
                 var promise2 = axios.get('http://localhost:5000/api/users/nearby/', {headers: {userId: this.$store.getters.userId}})
                     .then(function (res) {
-
-
+                        // eslint-disable-next-line no-console
+                        console.log(res);
                         return res.data
 
 
                     });
                 var self = this;
                 Promise.all([promise1, promise2]).then(function (values){
-                    var arr = values[0].concat(values[1]);
+                    var arr = [];
+                    // eslint-disable-next-line no-console
+                    console.log("values1")
+                    // eslint-disable-next-line no-console
+                    console.log(values[0])
+                    // eslint-disable-next-line no-console
+                    console.log("values2")
+                    // eslint-disable-next-line no-console
+                    console.log(values[1])
+                    if(values[0][0] != null && values[1][0] != null){
+                         arr = values[0].concat(values[1]);
+                    }else{
+                        arr = values[0]
+                    }
+
+                    // eslint-disable-next-line no-console
+                    console.log(arr);
                     self.friends = arr.reduce((unique, o) => {
                         if(!unique.some(obj => obj.name === o.name && obj.email === o.email)) {
                             unique.push(o);
