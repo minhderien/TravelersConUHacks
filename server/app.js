@@ -43,7 +43,7 @@ io.on('connection', function (socket) {
     
     socket.on('sendMessage', (data) => {
         console.log(data.contents)
-        io.emit('receiveMessage', data.contents)
+        io.emit('receiveMessage', data)
     });
 
 

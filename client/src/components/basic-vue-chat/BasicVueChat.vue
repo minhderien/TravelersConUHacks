@@ -79,7 +79,7 @@ export default {
   data: function () {
     return {
       feed: [],
-      authorId: 0, //get from state
+      authorId: this.$cookie.get("TravellerConnection"), //get from state
       toggleEmojiPicker: false,
       titleChat: this.$store.getters.activeChat,
       titleChatId: this.$store.getters.activeChatId
@@ -93,17 +93,7 @@ export default {
     }
   },
   mounted () {
-    /*if (this.attachMock) {
-      import('./mocks/mock-messages-list.js')
-        .then(mockData => {
-          this.feed = mockData.default.feed
-          this.setAuthorId(mockData.default.authorId)
-        })
-
-    } else {
-      this.feed = this.initialFeed
-      this.authorId = this.initialAuthorId
-    }*/
+    this.getAllMessages()
   },
   methods: {
     setEmojiPickerToggle (toggle) {
@@ -147,11 +137,60 @@ export default {
     },
     onOpenEmojiPicker (toggle) {
       this.setEmojiPickerToggle(toggle)
+    },
+    getAllMessages() {
+      self.authorId = this.$cookie.get("TravellerConnection");
+      let messages = this.$store.getters.messages;
+
+      let compare =   function ( a, b ) {
+      if ( a.createdAt < b.createdAt ){
+        return -1;
+      }
+      if ( a.createdAt> b.createdAt ){
+        return 1;
+      }
+      return 0;
+    }
+
+    messages = messages.sort( compare );
+    messages.forEach(m => {
+      console.log(m);
+
+        const newOwnMessage = {
+          id: m.author._id,
+          contents: m.body,
+          image: '',
+          imageUrl: '',
+          date: moment(m.createdAt).format('DD MM YYYY - HH:mm:ss')
+        };
+
+        this.pushToFeed(newOwnMessage);
+
+        scrollToBottom()
+
+        this.$emit('newOwnMessage', m.body);
+    });
     }
   },
   sockets: {
         receiveMessage: function(data) {
-          console.log('allo', data)
+          if(this.$cookie.get("TravellerConnection") == data.id) {
+            return;
+          }
+
+          const newOwnMessage = {
+          id: data.id,
+          contents: data.contents,
+          image: '',
+          imageUrl: '',
+          date: moment(data.data).format('DD MM YYYY - HH:mm:ss')
+        };
+
+        this.pushToFeed(newOwnMessage);
+
+        scrollToBottom()
+
+        this.$emit('newOwnMessage', data.contents);
         }
     },
   computed: {
