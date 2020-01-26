@@ -96,7 +96,12 @@
                     if(values[0][0] != null && values[1][0] != null){
                          arr = values[0].concat(values[1]);
                     }else{
-                        arr = values[0]
+                        if(values[0][0] == null && values[1][0] != null){
+                            arr = values[1]
+                        }else{
+                            arr = values[0]
+                        }
+                        
                     }
 
 

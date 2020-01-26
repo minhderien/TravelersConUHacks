@@ -56,7 +56,6 @@ router.get('/', (req, res) => {
 
 // Get a conversation
 router.get('/:conversationId', (req, res) => {
-    console.log('/conversations/' + req.params.conversationId)
     Message.find({ conversationId: req.params.conversationId })
         .select('createdAt body author')
         .sort('-createdAt')
@@ -69,7 +68,8 @@ router.get('/:conversationId', (req, res) => {
                 res.send({ error: err });
                 return next(err);
             }
-            return res.status(200).json({ messages: messages });
+
+            return res.status(200).json({ conversation: messages });
         });
 });
 

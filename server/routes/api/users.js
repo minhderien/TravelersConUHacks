@@ -13,13 +13,13 @@ router.post('/login',
     });
 
 // Save user current location
-router.post('/location/:id/:latitude/:longitude', (req, res) => {
+router.post('/location/:id', (req, res) => {
 
-    const latitude = req.params.latitude;
-    const longitude = req.params.longitude;
+    const latitude = req.body.latitude;
+    const longitude = req.body.longitude;
     const user_id = req.params.id;
-    const location = { "type": "Point", "coordinates": [latitude, longitude] }; //40.730610, -73.935242
-
+    const location = { "type": "Point", "coordinates": [45.4951369, -73.5787776] }; //40.730610, -73.935242
+    console.log("coordinateur : ",location.coordinates)
     console.log('location', location);
 
     User.findOne({ _id: user_id }).then(user => {
@@ -86,12 +86,13 @@ router.get('/nearby', (req, res) => {
             console.log('no user nearby');
             return res.send('No user');
         } else {
+            console.log("user location : ",user);
             User.aggregate([
                 {
                     $geoNear: {
                         near: {
                             type: "Point",
-                            coordinates: [user.location.coordinates[0], user.location.coordinates[1]]
+                            coordinates: [45.4951369,-73.5787776]
                         },
                         distanceField: "dist.calculated",
                         maxDistance: 5000, //30 000 meters
