@@ -2,10 +2,10 @@
   <div
     class="basic-vue-chat"
     @click="setEmojiPickerToggle(false)">
-    <section class="window">
-      <header class="window__header__container">
-        <slot name="header">
-          {{ title }}
+    <section class="window" >
+      <header id="chatboxTitle"  class="window__header__container" >
+        <slot  name="header" v-html="chatboxTitle">
+         {{chatboxTitle}}
         </slot>
       </header>
       <section
@@ -47,7 +47,7 @@ export default {
   props: {
     title: { //change for user name contacted
       type: String,
-      default: 'Test',
+      default:  '' ,
       required: false
     },
     initialAuthorId: {
@@ -79,7 +79,9 @@ export default {
     return {
       feed: [],
       authorId: 0, //get from state
-      toggleEmojiPicker: false//useless
+      toggleEmojiPicker: false,
+      titleChat: this.$store.getters.activeChat,
+      titleChatId: this.$store.getters.activeChatId
     }
   },
   watch: {
@@ -134,6 +136,13 @@ export default {
           console.log('allo', data)
         }
     },
+  computed: {
+    // a computed getter
+    chatboxTitle: function () {
+      // `this` points to the vm instance
+      return this.titleChat
+    }
+  }
 }
 </script>
 

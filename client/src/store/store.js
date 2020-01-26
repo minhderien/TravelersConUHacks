@@ -7,6 +7,8 @@ export const store = new Vuex.Store({
     state: {
         user: '',
         country: '',
+        activeChat: '',
+        activeChatId: null,
         message: '',
     },
     mutations: {
@@ -17,15 +19,11 @@ export const store = new Vuex.Store({
 
 
             state.country = user;
-        },
-        setMessage(state, message) {
-            state.message = message;
         }
     },
     getters: {
         user: state => state.user,
-        country: state => state.country,
-        message: state => state.message,
+        country: state => state.country
     }
 
 })
