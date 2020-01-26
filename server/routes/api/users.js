@@ -81,7 +81,6 @@ router.post('/register', (req, res) => {
 
 // Get all users nearby by id
 router.get('/nearby', (req, res) => {
-    console.log("MOtherfucka" + req.headers.userid);
     User.findById(req.headers.userid, function (err, user) {
         User.aggregate([
             {
@@ -91,7 +90,7 @@ router.get('/nearby', (req, res) => {
                         coordinates: [user.location.coordinates[0], user.location.coordinates[1]]
                     },
                     distanceField: "dist.calculated",
-                    maxDistance: 30000, //30 000 meters
+                    maxDistance: 5000, //30 000 meters
                     spherical: true
                 }
             }
@@ -100,6 +99,11 @@ router.get('/nearby', (req, res) => {
                 console.log('error:', err);
                 return;
             }
+            for (var i = 0; i < data.length; i++) {
+                if (data[i]._id == req.headers.userid) { 
+                    delete data[i];
+                }
+             }
             res.send(data);
         });
     });
