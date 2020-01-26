@@ -121,12 +121,10 @@
                 this.mapActive = true;
             }
         },
-        mounted: {
-            function () {
-                this.mapActive = false;
-                alert("test");
-                
-                 
+        mounted() {
+      
+            if(this.$cookie.get("TravellerConnection") == null){
+            this.$router.push("/login");
             }
         }
     }

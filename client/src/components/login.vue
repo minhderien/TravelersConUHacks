@@ -15,6 +15,7 @@
                         v-model="password"
                         label="Password"
                         required
+                        v-on:keyup.enter="login()"
                 ></v-text-field>
                 <v-btn @click="login()" rounded dark color="Grey">
                     Login
