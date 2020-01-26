@@ -92,7 +92,36 @@ export default {
     }
   },
   mounted () {
-    self.authorId = this.$cookie.get("TravellerConnection");
+    this.getAllMessages()
+  },
+  methods: {
+    setEmojiPickerToggle (toggle) {
+      this.toggleEmojiPicker = toggle
+    },
+    pushToFeed (element) {
+      this.feed.push(element)
+    },
+    onNewOwnMessage (message, image, imageUrl) {
+      const newOwnMessage = {
+        id: this.authorId,
+        contents: message,
+        image: image,
+        imageUrl: imageUrl,
+        date: moment().format('HH:mm:ss')
+      };
+
+      this.pushToFeed(newOwnMessage);
+
+      scrollToBottom()
+
+      this.$emit('newOwnMessage', message);
+      this.$socket.emit('sendMessage', newOwnMessage)
+    },
+    onOpenEmojiPicker (toggle) {
+      this.setEmojiPickerToggle(toggle)
+    },
+    getAllMessages() {
+      self.authorId = this.$cookie.get("TravellerConnection");
     let messages = this.$store.getters.messages;
 
       let compare =   function ( a, b ) {
@@ -122,50 +151,28 @@ export default {
         scrollToBottom()
 
         this.$emit('newOwnMessage', m.body);
-       // this.$socket.emit('sendMessage', newOwnMessage)
-    })
-    /*if (this.attachMock) {
-      import('./mocks/mock-messages-list.js')
-        .then(mockData => {
-          this.feed = mockData.default.feed
-          this.setAuthorId(mockData.default.authorId)
-        })
-
-    } else {
-      this.feed = this.initialFeed
-      this.authorId = this.initialAuthorId
-    }*/
-  },
-  methods: {
-    setEmojiPickerToggle (toggle) {
-      this.toggleEmojiPicker = toggle
-    },
-    pushToFeed (element) {
-      this.feed.push(element)
-    },
-    onNewOwnMessage (message, image, imageUrl) {
-      const newOwnMessage = {
-        id: this.authorId,
-        contents: message,
-        image: image,
-        imageUrl: imageUrl,
-        date: moment().format('HH:mm:ss')
-      };
-
-      this.pushToFeed(newOwnMessage);
-
-      scrollToBottom()
-
-      this.$emit('newOwnMessage', message);
-      this.$socket.emit('sendMessage', newOwnMessage)
-    },
-    onOpenEmojiPicker (toggle) {
-      this.setEmojiPickerToggle(toggle)
+    });
     }
   },
   sockets: {
         receiveMessage: function(data) {
-          console.log('allo', data)
+          if(this.$cookie.get("TravellerConnection") == data.id) {
+            return;
+          }
+
+          const newOwnMessage = {
+          id: data.id,
+          contents: data.contents,
+          image: '',
+          imageUrl: '',
+          date: moment(data.data).format('DD MM YYYY - HH:mm:ss')
+        };
+
+        this.pushToFeed(newOwnMessage);
+
+        scrollToBottom()
+
+        this.$emit('newOwnMessage', data.contents);
         }
     },
   computed: {
