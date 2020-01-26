@@ -81,6 +81,7 @@ export default {
                           this.$router.push("/login");
                           this.$store.commit('changeUser', null);
                           this.$store.commit('changeCountry', null);
+                          this.$cookie.delete('TravellerConnection');
                       }
                     });
     }

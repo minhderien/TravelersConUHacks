@@ -78,7 +78,7 @@ router.post('/register', (req, res) => {
         }
     });
 });
-
+ 
 // Get all users nearby by id
 router.get('/nearby', (req, res) => {
     User.findById(req.headers.userid, function (err, user) {

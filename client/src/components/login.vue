@@ -17,7 +17,7 @@
                         required
                         v-on:keyup.enter="login()"
                 ></v-text-field>
-                <v-btn @click="login()" rounded dark color="Grey">
+                <v-btn @click="login()" class="loginBtn" rounded dark color="Grey">
                     Login
                 </v-btn>
                 <v-btn @click="create()" rounded dark color="Grey">
@@ -50,19 +50,21 @@
                 password: '',
                 snackbar: false,
                 error: '',
-                csrf:  "csrf"
+                csrf:  "csrf",
+                location: null
             }
 
         },
         methods: {
             login(){
-             var link = "http://localhost:5000/api/users/login";    
+             var link = "http://localhost:5000/api/users/login";   
+             var linkLocation = ""; 
                 // eslint-disable-next-line no-console
-                axios.post(link, null, {credentials: 'include', data : {
+                  axios.post(link, null, {credentials: 'include', data : {
                         email :this.email,
                         password: this.password
                     }}).then(response => {
-                     
+                        
                         if(response.status ==200 ){
                              this.$store.commit('changeUser', response.data.name);
                              this.$store.commit('changeCountry', response.data.country);
@@ -70,10 +72,12 @@
                              this.$router.push('FriendFinder');
 
                              this.$cookie.set("TravellerConnection", response.data.id, 1);
-                            
-
+                           
                         }
-
+                        // eslint-disable-next-line no-console
+                           console.log(this.location)
+                            linkLocation = "http://localhost:5000/api/users/location/" + response.data.id + "/" + parseFloat(this.location.coords.latitude) + "/" + parseFloat(this.location.coords.longitude)
+                            axios.post(linkLocation, null, {credentials: 'include', data : {} }).catch();  
 
                     }).catch(error => {
                     // eslint-disable-next-line no-console
@@ -82,11 +86,21 @@
                         this.snackbar = true;
 
                 });
-
+               
+                        navigator.geolocation.getCurrentPosition(pos => {
+                               
+                                this.location = pos;
+                            }, err => {
+                                
+                                this.errorStr = err.message;
+                            })
+                         
             },
             create(){
                 location.href = "/#/create"
             }
+
+            
         }
 
     }
@@ -102,8 +116,12 @@
         background-position: center center;
         height: 1000px;
     }
+    .loginBtn{
+        margin-right: 15px;
+    }
     .login {
         padding-top: 15%;
+       
         margin: auto;
         width: 50%;
         display:block
