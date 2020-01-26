@@ -5,6 +5,8 @@ import * as VueGoogleMaps from "vue2-google-maps";
 import login from "../components/login"
 import create from "../components/create"
 import home from "../components/home"
+import VueCookie from 'vue-cookie'
+ 
 
 Vue.use(Router)
 Vue.use(VueGoogleMaps, {
@@ -13,6 +15,8 @@ Vue.use(VueGoogleMaps, {
       libraries: "places" // necessary for places input
     }
   }); 
+  Vue.use(VueCookie);
+
 export default new Router({
     routes: [
         {
