@@ -40,7 +40,7 @@
                         </div>
                          
                             <div v-if="!mapActive">
-                        <BasicVueChat></BasicVueChat>
+                        <BasicVueChat :activeConversation="activeConversation"></BasicVueChat>
                             </div>
                        
                     </v-col>
@@ -53,6 +53,7 @@
 </template>
 
 <script>
+    /* eslint-disable no-console */
     import mapComponent from "./mapComponent";
     import BasicVueChat from './basic-vue-chat/BasicVueChat'
     import axios from 'axios'
@@ -78,6 +79,7 @@
                 friends: [],
                 data: false,
                 loaded : false,
+                activeConversation: null,
             }
         },
         methods: {
@@ -132,14 +134,30 @@
                 // eslint-disable-next-line no-console
 
             },
-            showChat(i,name){
+            async showChat(i,name){
+                // eslint-disable-next-line no-console
+                let friendId = this.friends[i]._id;
+                let userId = this.$cookie.get("TravellerConnection");
+                
+               let conversation = await axios.get(`http://localhost:5000/api/conversations/${userId}/${friendId}`);
+               
 
+                const {data} = conversation;
+                if(data.length == 0) { // create convo
+                    let newConvo = await axios.post(`http://localhost:5000/api/conversations/new/${userId}/${friendId}`);
+                    self.activeConversation = newConvo;
+                }
+
+                else {
+                    self.activeConversation = data[0];
+                }
                 this.$store.commit('changeActiveChat', name);
                 this.activeIndex = i;
                 this.mapActive = false;
                 if(this.mapActive){
                     document.getElementById('chatboxTitle').innerHTML = name;
                 }
+
 
             },
             showMap(){
