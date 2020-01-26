@@ -62,7 +62,8 @@ export default {
 
   },
  created: function (){
-
+   //Get connected userID
+    this.$cookie.get("TravellerConnection")
  },
   data: () => ({
     user : ''

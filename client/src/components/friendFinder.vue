@@ -1,4 +1,3 @@
-
 <template>
     <div class="profile">
         <div class="ProfilePic">
@@ -29,6 +28,10 @@
                                 </v-list-item-content>
                             </v-list-item>
                         </v-list>
+                        <br>
+                        <v-btn v-if="!mapActive" @click="showMap()" rounded dark color="#f57542">
+                        Back to map
+                        </v-btn>
                         </div>
                     </v-col>
                     <v-col cols="9">
@@ -66,16 +69,28 @@
                     // eslint-disable-next-line no-console
 
                     self.friends = res.data;
+
                     // eslint-disable-next-line no-console
                     console.log(res.data);
-                    return res.data;
+
 
                 });
+            axios.get('http://localhost:5000/api/users/nearby/', {headers: {userId: this.$store.getters.userId}})
+                .then(function (res) {
+                    // eslint-disable-next-line no-console
 
-        },
-        mounted () {
+                    self.friends.concat(res.data);
+                    // eslint-disable-next-line no-console
+                    console.log(res.data);
 
+
+                });
+            setTimeout(function() {
+                // eslint-disable-next-line no-console
+                console.log(self.friends);
+            },5000)
         },
+
         props: {
         },
         data() {
@@ -104,6 +119,14 @@
       
                 this.activeIndex = null;
                 this.mapActive = true;
+            }
+        },
+        mounted: {
+            function () {
+                this.mapActive = false;
+                alert("test");
+                
+                 
             }
         }
     }

@@ -68,6 +68,9 @@
                              this.$store.commit('changeUserId', response.data.id);
                              this.$router.push('FriendFinder');
 
+                             this.$cookie.set("TravellerConnection", response.data.id, 1);
+                            
+
                         }
 
 
