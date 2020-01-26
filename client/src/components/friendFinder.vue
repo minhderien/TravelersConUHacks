@@ -150,13 +150,13 @@
                 if(data.length == 0) { // create convo
                     let newConvo = await axios.post(`http://localhost:5000/api/conversations/new/${userId}/${friendId}`);
                     self.activeConversation = newConvo;
-                    
                     isConversation = true;
                     activeConvoId = newConvo._id;
                 }
 
                 else {
                     self.activeConversation = data[0];
+                    console.log('newConvo',data[0]);
                     this.$store.commit('changeActiveChatId', data[0]._id);
                     isConversation = true;
                     activeConvoId = data[0]._id;
@@ -164,10 +164,12 @@
 
                 if(isConversation) {
                     const messages = await axios.get(`http://localhost:5000/api/conversations/${activeConvoId}`);
+                    console.log('mmmm', messages.data.messages);
                     this.$store.commit('changeActiveMessages', messages.data.messages);
                 }
 
                 this.$store.commit('changeActiveChat', name);
+
                 this.activeIndex = i;
                 this.mapActive = false;
                 if(this.mapActive){

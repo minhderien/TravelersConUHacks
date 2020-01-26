@@ -112,7 +112,7 @@ export default {
       };
 
       this.pushToFeed(newOwnMessage);
-      axios.post('http://localhost:5000/api/conversations/'+ this.$store.getters.conversationId._id, null, {credentials: 'include', data : {
+      axios.post('http://localhost:5000/api/conversations/'+ this.$store.getters.activeChatId, null, {credentials: 'include', data : {
                        composedMessage: message,
                         idAuthor: this.$store.getters.userId 
                     }}).then(response => {
@@ -133,6 +133,7 @@ export default {
       scrollToBottom()
 
       this.$emit('newOwnMessage', message);
+      console.log('here')
       this.$socket.emit('sendMessage', newOwnMessage)
     },
     onOpenEmojiPicker (toggle) {
@@ -151,10 +152,9 @@ export default {
       }
       return 0;
     }
-
+    console.log('messages', messages)
     messages = messages.sort( compare );
     messages.forEach(m => {
-      console.log(m);
 
         const newOwnMessage = {
           id: m.author._id,
