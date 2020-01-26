@@ -63,8 +63,7 @@
                     // eslint-disable-next-line no-console
                         console.log(response)
                         if(response.status == 200 ){
-
-                            this.$router.push('FriendFinder')
+                            this.$router.push('Login');
                         }
 
                     }).catch(error => {

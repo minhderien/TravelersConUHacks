@@ -7,11 +7,11 @@
           style="height: 300px;"
         >
                     <v-col cols="3">
-                        <div>
+                        <div v-if="mapActive" >
                        <h2>Friends List</h2>
 
 
-                        <v-list>
+                        <v-list  >
                             <v-list-item 
                             :key="i" 
                             :flat="true"
@@ -24,15 +24,14 @@
                              
                                 <v-list-item-content>
                                     <v-list-item-title >{{item.name}} - <span class="displayCountry">{{item.country}}</span></v-list-item-title>
-                                <v-list-item-subtitle><span class="MessageFriendList">Message :</span>{{i}} </v-list-item-subtitle>
                                 </v-list-item-content>
                             </v-list-item>
                         </v-list>
                         <br>
-                        <v-btn v-if="!mapActive" @click="showMap()" rounded dark color="#f57542">
-                        Back to map
+                       
+                        </div> <v-btn v-if="!mapActive" @click="showMap()" rounded dark color="#f57542">
+                        Back
                         </v-btn>
-                        </div>
                     </v-col>
                     <v-col cols="9">
                         <div v-if="mapActive">
@@ -67,7 +66,6 @@
         created : function(){
             this.getUsers();
             // eslint-disable-next-line no-console
-            console.log(this.friends)
         },
         data() {
             return {
@@ -109,8 +107,6 @@
                                 "lat" : o.location.coordinates[0],
                                 "lng" : o.location.coordinates[1]
                             }
-                            // eslint-disable-next-line no-console
-                            console.log(coordinates);
                             self.$store.commit('changeMarkers', JSON.stringify(coordinates));
 
 
@@ -150,7 +146,6 @@
 
                 else {
                     self.activeConversation = data[0];
-                    console.log('newConvo',data[0]);
                     this.$store.commit('changeActiveChatId', data[0]._id);
                     isConversation = true;
                     activeConvoId = data[0]._id;
@@ -158,7 +153,6 @@
 
                 if(isConversation) {
                     const messages = await axios.get(`http://localhost:5000/api/conversations/${activeConvoId}`);
-                    console.log('mmmm', messages.data.messages);
                     this.$store.commit('changeActiveMessages', messages.data.messages);
                 }
 
@@ -175,6 +169,7 @@
       
                 this.activeIndex = null;
                 this.mapActive = true;
+          
             }
         },
         mounted() {
