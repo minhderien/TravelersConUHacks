@@ -140,7 +140,7 @@ export default {
     },
     getAllMessages() {
       self.authorId = this.$cookie.get("TravellerConnection");
-    let messages = this.$store.getters.messages;
+      let messages = this.$store.getters.messages;
 
       let compare =   function ( a, b ) {
       if ( a.createdAt < b.createdAt ){
