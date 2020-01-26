@@ -78,7 +78,7 @@ export default {
   data: function () {
     return {
       feed: [],
-      authorId: 0, //get from state
+      authorId: this.$cookie.get("TravellerConnection"), //current user id
       toggleEmojiPicker: false,
       titleChat: this.$store.getters.activeChat,
       titleChatId: this.$store.getters.activeChatId
