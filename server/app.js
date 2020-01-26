@@ -42,8 +42,8 @@ io.on('connection', function (socket) {
     // Use socket to communicate with this particular client only, sending it it's own id
     
     socket.on('sendMessage', (data) => {
-        console.log(data.contents)
-        io.emit('receiveMessage', data.contents)
+        console.log(data)
+        io.emit('receiveMessage', data)
     });
 
 

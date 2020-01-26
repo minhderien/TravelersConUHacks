@@ -113,7 +113,7 @@ export default {
     },
     onNewOwnMessage (message, image, imageUrl) {
       const newOwnMessage = {
-        id: this.authorId,
+        id: this.$cookie.get("TravellerConnection"),
         contents: message,
         image: image,
         imageUrl: imageUrl,
@@ -133,7 +133,23 @@ export default {
   },
   sockets: {
         receiveMessage: function(data) {
-          console.log('allo', data)
+          // check if message is from another user
+          if(data.id !== this.authorId) {
+            // show message as receiver 
+            const newOwnMessage = {
+            id: data,
+            contents: data.contents,
+            image: data.contents,
+            imageUrl: data.imageUrl,  
+            date: data.date
+            };
+
+            this.pushToFeed(newOwnMessage);
+
+            scrollToBottom()
+
+            this.$emit('newOwnMessage', data.contents);
+            }
         }
     },
   computed: {
