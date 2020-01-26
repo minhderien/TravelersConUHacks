@@ -69,7 +69,7 @@ router.get('/:conversationId', (req, res) => {
                 return next(err);
             }
 
-            return res.status(200).json({ conversation: messages });
+            return res.status(200).json({ messages: messages });
         });
 });
 
