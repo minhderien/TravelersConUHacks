@@ -130,16 +130,17 @@ router.post('/new/:fromId/:recipientId', (req, res, next) => {
 
 // Reply to conversation
 router.post('/:conversationId', (req, res, next) => {
+    console.log("test : ",req)
     const reply = new Message({
         conversationId: req.params.conversationId,
         body: req.body.composedMessage,
-        author: req.user._id//
+        author: req.body.idAuthor//
     });
 
     reply.save((err, sentReply) => {
         if (err) {
             res.send({ error: err });
-            return next(err);
+            return next(err); 
         }
 
         return res.status(200).json({ message: 'Reply successfully sent!' });

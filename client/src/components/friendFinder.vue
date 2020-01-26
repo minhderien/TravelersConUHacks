@@ -150,6 +150,8 @@
 
                 else {
                     self.activeConversation = data[0];
+                    this.$store.commit('changeConversationId', data[0]);
+                      this.$store.commit('changeActiveChatId', friendId);
                 }
                 this.$store.commit('changeActiveChat', name);
                 this.activeIndex = i;
