@@ -124,7 +124,7 @@
         mounted() {
       
             if(this.$cookie.get("TravellerConnection") == null){
-            this.$router.push("/login");
+                this.$router.push("/login");
             }
         }
     }

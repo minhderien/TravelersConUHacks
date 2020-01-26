@@ -6,7 +6,7 @@ import login from "../components/login"
 import create from "../components/create"
 import home from "../components/home"
 import VueCookie from 'vue-cookie'
-
+import notfound from '../components/notfound'
 
 Vue.use(Router)
 Vue.use(VueGoogleMaps, {
@@ -43,6 +43,11 @@ export default new Router({
             path: '/home',
             name: 'Home',
             component: home
-        }
+        },
+        {
+            path: '*',
+            name: 'NotFound',
+            component: notfound,
+         }
     ]
 })
