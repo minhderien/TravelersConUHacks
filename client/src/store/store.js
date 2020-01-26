@@ -12,6 +12,7 @@ export const store = new Vuex.Store({
         userId: '',
         users: {},
         message: '',
+        markers : [],
         messages: [],
         conversationId: null
     },
@@ -40,6 +41,12 @@ export const store = new Vuex.Store({
         addUsers(state, val){
             state.users = state.users.concat(val)
         },
+        changeMarkers(state, val){
+            state.markers = state.markers.concat(val);
+        },
+        resetMarkers(state){
+            state.markers = []
+        },
         changeActiveMessages(state, val) {
             // eslint-disable-next-line no-console
             console.log('changeActiveMessages', val)
@@ -54,6 +61,7 @@ export const store = new Vuex.Store({
         activeChatId: state => state.activeChatId,
         userId: state => state.userId,
         messages: state => state.messages,
+        markers: state => state.markers,
     }
 
 })

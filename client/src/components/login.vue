@@ -75,13 +75,13 @@
                            
                         }
                         // eslint-disable-next-line no-console
-                            
+
                             linkLocation = "http://localhost:5000/api/users/location/" + response.data.id  ;
                             alert(linkLocation)
                             axios.post(linkLocation, null, {credentials: 'include', data : {
                                 latitude: this.location.coords.latitude,
                                 longitude: this.longitude.coords.longitude
-                            } }).catch();  
+                            } }).catch();
 
                     }).catch(error => {
                     // eslint-disable-next-line no-console

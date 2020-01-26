@@ -104,14 +104,11 @@ router.get('/nearby', (req, res) => {
                     console.log('error:', err);
                     return;
                 }
-                
-                
                 for (var i = 0; i < data.length; i++) {
-                    if (data[i]._id == req.headers.userid) { 
+                    if (data[i]._id == req.headers.userid) {
                         delete data[i];
                     }
-                 }
-                 console.log('user nearby ELLLSE: ', data);
+                }
                 res.send(data);
             });
         }

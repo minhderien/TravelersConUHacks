@@ -24,7 +24,6 @@
                              
                                 <v-list-item-content>
                                     <v-list-item-title >{{item.name}} - <span class="displayCountry">{{item.country}}</span></v-list-item-title>
-                                <v-list-item-subtitle><span class="MessageFriendList">Message :</span>{{i}} </v-list-item-subtitle>
                                 </v-list-item-content>
                             </v-list-item>
                         </v-list>
@@ -36,7 +35,7 @@
                     </v-col>
                     <v-col cols="9">
                         <div v-if="mapActive">
-                        <mapComponent></mapComponent>
+                        <mapComponent ref="mapComponentRef"></mapComponent>
                         </div>
                          
                             <div v-if="!mapActive">
@@ -58,6 +57,7 @@
     import BasicVueChat from './basic-vue-chat/BasicVueChat'
     import axios from 'axios'
     export default {
+
         name: 'profile',
         components : {
             mapComponent,
@@ -66,15 +66,11 @@
         created : function(){
             this.getUsers();
             // eslint-disable-next-line no-console
-            console.log(this.friends)
-        },
-
-        props: {
         },
         data() {
             return {
                 cards: [],
-                mapActive: true,
+                mapActive: false,
                 activeIndex: null,
                 friends: [],
                 data: false,
@@ -86,14 +82,10 @@
             getUsers(){
                 var promise1 = axios.get('http://localhost:5000/api/users/active/conversations', {headers: {userId: this.$store.getters.userId}})
                     .then(function (res) {
-                        // eslint-disable-next-line no-console
-                        console.log(res);
                         return res.data
                     });
                 var promise2 = axios.get('http://localhost:5000/api/users/nearby/', {headers: {userId: this.$store.getters.userId}})
                     .then(function (res) {
-                        // eslint-disable-next-line no-console
-                        console.log(res);
                         return res.data
 
 
@@ -101,14 +93,6 @@
                 var self = this;
                 Promise.all([promise1, promise2]).then(function (values){
                     var arr = [];
-                    // eslint-disable-next-line no-console
-                    console.log("values1")
-                    // eslint-disable-next-line no-console
-                    console.log(values[0])
-                    // eslint-disable-next-line no-console
-                    console.log("values2")
-                    // eslint-disable-next-line no-console
-                    console.log(values[1])
                     if(values[0][0] != null && values[1][0] != null){
                          arr = values[0].concat(values[1]);
                     }else{
@@ -120,20 +104,26 @@
                         
                     }
 
-                    // eslint-disable-next-line no-console
-                    console.log("All friends : " , arr);
+
                     self.friends = arr.reduce((unique, o) => {
-                         try{
-                            if(!unique.some(obj => obj.name === o.name && obj.email === o.email)) {
-                                unique.push(o);
+                        if(!unique.some(obj => obj.name === o.name && obj.email === o.email)) {
+                            unique.push(o);
+                            var coordinates = {
+                                "lat" : o.location.coordinates[0],
+                                "lng" : o.location.coordinates[1]
                             }
-                        }catch(err){
-                            console.log(err)
+                            self.$store.commit('changeMarkers', JSON.stringify(coordinates));
+
+
                         }
-                        // eslint-disable-next-line no-console
+
+
+
+                        setTimeout(function(){
+                            self.mapActive = true;
+                        },2000);
                         return unique;
                     },[]);
-                    console.log("My friends :",self.friends);
 
                 })
 
@@ -147,9 +137,9 @@
                 let userId = this.$cookie.get("TravellerConnection");
                 let isConversation = false;
                 let activeConvoId;
-                
+
                let conversation = await axios.get(`http://localhost:5000/api/conversations/${userId}/${friendId}`);
-               
+
 
                 const {data} = conversation;
                 if(data.length == 0) { // create convo
@@ -161,7 +151,6 @@
 
                 else {
                     self.activeConversation = data[0];
-                    console.log('newConvo',data[0]);
                     this.$store.commit('changeActiveChatId', data[0]._id);
                     isConversation = true;
                     activeConvoId = data[0]._id;
@@ -169,18 +158,15 @@
 
                 if(isConversation) {
                     const messages = await axios.get(`http://localhost:5000/api/conversations/${activeConvoId}`);
-                    console.log('mmmm', messages.data.messages);
                     this.$store.commit('changeActiveMessages', messages.data.messages);
                 }
 
                 this.$store.commit('changeActiveChat', name);
-
                 this.activeIndex = i;
                 this.mapActive = false;
                 if(this.mapActive){
                     document.getElementById('chatboxTitle').innerHTML = name;
                 }
-
 
             },
             showMap(){
