@@ -24,6 +24,7 @@
                    :type="'password'"
                     label="New Password"
                     required
+                    v-on:keyup.enter="register()"
             ></v-text-field>
             <v-btn @click="register()" rounded dark color="Grey">
                 Create Account
