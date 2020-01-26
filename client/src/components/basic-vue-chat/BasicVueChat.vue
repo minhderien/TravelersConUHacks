@@ -78,7 +78,7 @@ export default {
   data: function () {
     return {
       feed: [],
-      authorId: 0, //get from state
+      authorId: this.$cookie.get("TravellerConnection"), //get from state
       toggleEmojiPicker: false,
       titleChat: this.$store.getters.activeChat,
       titleChatId: this.$store.getters.activeChatId
@@ -92,6 +92,38 @@ export default {
     }
   },
   mounted () {
+    self.authorId = this.$cookie.get("TravellerConnection");
+    let messages = this.$store.getters.messages;
+
+      let compare =   function ( a, b ) {
+      if ( a.createdAt < b.createdAt ){
+        return -1;
+      }
+      if ( a.createdAt> b.createdAt ){
+        return 1;
+      }
+      return 0;
+    }
+
+    messages = messages.sort( compare );
+    messages.forEach(m => {
+      console.log(m);
+
+        const newOwnMessage = {
+          id: m.author._id,
+          contents: m.body,
+          image: '',
+          imageUrl: '',
+          date: moment(m.createdAt).format('DD MM YYYY - HH:mm:ss')
+        };
+
+        this.pushToFeed(newOwnMessage);
+
+        scrollToBottom()
+
+        this.$emit('newOwnMessage', m.body);
+       // this.$socket.emit('sendMessage', newOwnMessage)
+    })
     /*if (this.attachMock) {
       import('./mocks/mock-messages-list.js')
         .then(mockData => {
