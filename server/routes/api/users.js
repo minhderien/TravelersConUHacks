@@ -47,8 +47,6 @@ router.get('/logout', (req, res) => {
     res.send('logged out');
 });
 
- 
-
 // Add user (register)
 router.post('/register', (req, res) => {
     const { name, email, password, country } = req.body;
@@ -82,8 +80,11 @@ router.post('/register', (req, res) => {
 });
 
 // Get all users nearby by id
-router.get('/nearby/:id', (req, res) => {
-    User.findById(req.params.id, function (err, user) {
+router.get('/nearby', (req, res) => {
+    User.findById(req.headers.userid, function (err, user) {
+        if(!user) {
+            return;
+        }
         User.aggregate([
             {
                 $geoNear: {
@@ -92,7 +93,7 @@ router.get('/nearby/:id', (req, res) => {
                         coordinates: [user.location.coordinates[0], user.location.coordinates[1]]
                     },
                     distanceField: "dist.calculated",
-                    maxDistance: 30000, //30 000 meters
+                    maxDistance: 5000, //30 000 meters
                     spherical: true
                 }
             }
@@ -101,6 +102,11 @@ router.get('/nearby/:id', (req, res) => {
                 console.log('error:', err);
                 return;
             }
+            for (var i = 0; i < data.length; i++) {
+                if (data[i]._id == req.headers.userid) { 
+                    delete data[i];
+                }
+             }
             res.send(data);
         });
     });
@@ -117,12 +123,12 @@ router.get('/:id', async (req, res) => {
 });
 
 // Get list of users of active conversations
-router.get('/active/conversations', (req, res) => {
-    Conversation.find({ participants: req.user._id }) //'5e2bba66222c4f57b8e13b18'
+router.get('/active/conversations', async (req, res) => {
+    Conversation.find({ participants: req.headers.userid }) //'5e2bba66222c4f57b8e13b18'
         .exec((err, conversations) => {
             if (err) {
                 res.send({ error: err });
-                return next(err);
+                return err;
             }
             console.log('conversations: ' + conversations);
 
@@ -130,7 +136,7 @@ router.get('/active/conversations', (req, res) => {
             conversations.forEach((conversation) => {
                 conversation.participants.forEach((participantId) => {
                     // If it's not himself
-                    if (req.user._id != participantId) {
+                    if (req.headers.userid != participantId) {
                         participantsIds.push(participantId);
                     }
                 });

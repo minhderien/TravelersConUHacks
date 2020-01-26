@@ -40,7 +40,7 @@
                         </div>
                          
                             <div v-if="!mapActive">
-                        <BasicVueChat :userId="currentUserId"></BasicVueChat>
+                        <BasicVueChat></BasicVueChat>
                             </div>
                        
                     </v-col>
@@ -55,16 +55,44 @@
 <script>
     import mapComponent from "./mapComponent";
     import BasicVueChat from './basic-vue-chat/BasicVueChat'
+    import axios from 'axios'
     export default {
         name: 'profile',
         components : {
             mapComponent,
              BasicVueChat,
         },
-        created : function(){
-            // eslint-disable-next-line no-console
-           console.log(this.$store.getters.user);
+        created : function() {
+            var self = this;
+            const userId = this.$cookie.get("TravellerConnection");
+            axios.get(`http://localhost:5000/api/conversations/active/${userId}`)
+                .then(function (res) {
+                    // eslint-disable-next-line no-console
+
+                    self.friends = res.data;
+                    // eslint-disable-next-line no-console
+                    const { conversations } = res.data;
+                    self.conversations = conversations;
+                    // eslint-disable-next-line no-console
+                    console.log('here')
+
+                });
+            axios.get('http://localhost:5000/api/users/nearby/', {headers: {userId: this.$store.getters.userId}})
+                .then(function (res) {
+                    // eslint-disable-next-line no-console
+
+                    self.friends.concat(res.data);
+                    // eslint-disable-next-line no-console
+                    console.log('nearby',res.data);
+
+
+                });
+            setTimeout(function() {
+                // eslint-disable-next-line no-console
+                console.log('',self.friends);
+            },5000)
         },
+
         props: {
         },
         data() {
@@ -72,18 +100,10 @@
                 cards: [],
                 mapActive: true,
                 activeIndex: null,
-                currentUserId: this.$cookie.get("TravellerConnection"),
-                friends: [{
-                    name: "salim",
-                    country: "Canada",
-                    
-                },{
-                    name: "minh",
-                    country: "Canada",
-                 },{
-                    name: "Vincent",
-                    country: "Canada",
-                 }]
+                friends: null,
+                data: false,
+                loaded : false,
+                conversations: []
             }
         },
         methods: {
@@ -92,7 +112,10 @@
                 this.$store.commit('changeActiveChat', name);
                 this.activeIndex = i;
                 this.mapActive = false;
-                document.getElementById('chatboxTitle').innerHTML = name;
+                if(this.mapActive){
+                    document.getElementById('chatboxTitle').innerHTML = name;
+                }
+
             },
             showMap(){
                 this.$store.commit('changeActiveChat', null);
@@ -101,13 +124,13 @@
                 this.mapActive = true;
             }
         },
-        mounted: {
-            function () {
-                this.mapActive = false;
-                alert("test");
-                
-                 
+        mounted() {
+      
+            if(this.$cookie.get("TravellerConnection") == null){
+                this.$router.push("/login");
             }
+            // eslint-disable-next-line no-console
+            console.log(this.conversations)
         }
     }
 </script>

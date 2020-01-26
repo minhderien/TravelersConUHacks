@@ -5,8 +5,8 @@ const Message = require('../../models/Message');
 const router = express.Router();
 
 // Get active conversations
-router.get('/active', (req, res) => {
-    Conversation.find({ participants: req.user._id }) //req.user._id
+router.get('/active/:id', (req, res, next) => {
+    Conversation.find({ participants: req.params.id  }) //req.user._id
         .exec((err, conversations) => {
             if (err) {
                 res.send({ error: err });
