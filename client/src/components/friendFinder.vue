@@ -119,14 +119,19 @@
                     }
 
                     // eslint-disable-next-line no-console
-                    console.log(arr);
+                    console.log("All friends : " , arr);
                     self.friends = arr.reduce((unique, o) => {
-                        if(!unique.some(obj => obj.name === o.name && obj.email === o.email)) {
-                            unique.push(o);
+                         try{
+                            if(!unique.some(obj => obj.name === o.name && obj.email === o.email)) {
+                                unique.push(o);
+                            }
+                        }catch(err){
+                            console.log(err)
                         }
                         // eslint-disable-next-line no-console
                         return unique;
                     },[]);
+                    console.log("My friends :",self.friends);
 
                 })
 

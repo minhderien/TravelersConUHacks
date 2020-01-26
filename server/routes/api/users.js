@@ -83,8 +83,9 @@ router.post('/register', (req, res) => {
 router.get('/nearby', (req, res) => {
     User.findById(req.headers.userid, function (err, user) {
         if(!user) {
+            console.log('no user nearby');
             return res.send('No user');
-        }
+        } else {
             User.aggregate([
                 {
                     $geoNear: {
@@ -102,13 +103,18 @@ router.get('/nearby', (req, res) => {
                     console.log('error:', err);
                     return;
                 }
+                
+                
                 for (var i = 0; i < data.length; i++) {
                     if (data[i]._id == req.headers.userid) { 
                         delete data[i];
                     }
                  }
+                 console.log('user nearby ELLLSE: ', data);
                 res.send(data);
             });
+        }
+
     });
 });
 
