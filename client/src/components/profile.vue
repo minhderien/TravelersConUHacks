@@ -40,7 +40,7 @@
                         </div>
                          
                             <div v-if="!mapActive">
-                        <BasicVueChat></BasicVueChat>
+                        <BasicVueChat :userId="currentUserId"></BasicVueChat>
                             </div>
                        
                     </v-col>
@@ -72,6 +72,7 @@
                 cards: [],
                 mapActive: true,
                 activeIndex: null,
+                currentUserId: this.$cookie.get("TravellerConnection"),
                 friends: [{
                     name: "salim",
                     country: "Canada",
