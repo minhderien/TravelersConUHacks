@@ -37,6 +37,7 @@ import moment from 'moment'
 import { scrollToBottom } from '../../helpers/scroll.js'
 import MessagesList from './messages/MessagesList.vue'
 import InputContainer from './input/InputContainer.vue'
+    import axios from 'axios'
 
 export default {
   name: 'BasicVueChat',
@@ -111,7 +112,24 @@ export default {
       };
 
       this.pushToFeed(newOwnMessage);
+      axios.post('http://localhost:5000/api/conversations/'+ this.$store.getters.conversationId._id, null, {credentials: 'include', data : {
+                       composedMessage: message,
+                        idAuthor: this.$store.getters.userId 
+                    }}).then(response => {
+                    // eslint-disable-next-line no-console
+                        console.log(this.$store.getters.conversationId)
+                        if(response.status == 200 ){
 
+                           // alert("message sent :" + message + " to " + this.$store.getters.conversationId._id);
+                        }
+
+                    }).catch(error => {
+                    // eslint-disable-next-line no-console
+                        console.log(error);
+                        this.error = error
+                        this.snackbar = true;
+
+                });
       scrollToBottom()
 
       this.$emit('newOwnMessage', message);
