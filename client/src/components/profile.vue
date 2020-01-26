@@ -1,4 +1,3 @@
-
 <template>
     <div class="profile">
         <div class="ProfilePic">
@@ -29,6 +28,10 @@
                                 </v-list-item-content>
                             </v-list-item>
                         </v-list>
+                        <br>
+                        <v-btn v-if="!mapActive" @click="showMap()" rounded dark color="#f57542">
+                        Back to map
+                        </v-btn>
                         </div>
                     </v-col>
                     <v-col cols="9">
@@ -95,6 +98,14 @@
       
                 this.activeIndex = null;
                 this.mapActive = true;
+            }
+        },
+        mounted: {
+            function () {
+                this.mapActive = false;
+                alert("test");
+                
+                 
             }
         }
     }

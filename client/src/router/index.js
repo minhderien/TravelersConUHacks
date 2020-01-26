@@ -1,13 +1,18 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import profile from '../components/profile'
-
+import * as VueGoogleMaps from "vue2-google-maps";
 import login from "../components/login"
 import create from "../components/create"
 import home from "../components/home"
 
 Vue.use(Router)
-
+Vue.use(VueGoogleMaps, {
+    load: {
+      key: "AIzaSyDb38eOeort7qc_U56E6esfIcpnXEBZzho",
+      libraries: "places" // necessary for places input
+    }
+  }); 
 export default new Router({
     routes: [
         {
