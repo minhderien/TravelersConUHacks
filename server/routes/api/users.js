@@ -81,7 +81,6 @@ router.post('/register', (req, res) => {
 
 // Get all users nearby by id
 router.get('/nearby', (req, res) => {
-    console.log("MOtherfucka" + req.headers.userid);
     User.findById(req.headers.userid, function (err, user) {
         User.aggregate([
             {
