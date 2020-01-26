@@ -52,6 +52,7 @@
 <script>
     import mapComponent from "./mapComponent";
     import BasicVueChat from './basic-vue-chat/BasicVueChat'
+    import axios from 'axios'
     export default {
         name: 'profile',
         components : {
@@ -59,8 +60,21 @@
              BasicVueChat,
         },
         created : function(){
-            // eslint-disable-next-line no-console
-           console.log(this.$store.getters.user);
+            var self = this;
+            axios.get('http://localhost:5000/api/users/active/conversations', {headers: {userId: this.$store.getters.userId}})
+                .then(function (res) {
+                    // eslint-disable-next-line no-console
+
+                    self.friends = res.data;
+                    // eslint-disable-next-line no-console
+                    console.log(res.data);
+                    return res.data;
+
+                });
+
+        },
+        mounted () {
+
         },
         props: {
         },
@@ -69,17 +83,9 @@
                 cards: [],
                 mapActive: true,
                 activeIndex: null,
-                friends: [{
-                    name: "salim",
-                    country: "Canada",
-                    
-                },{
-                    name: "minh",
-                    country: "Canada",
-                 },{
-                    name: "Vincent",
-                    country: "Canada",
-                 }]
+                friends: null,
+                data: false,
+                loaded : false,
             }
         },
         methods: {
@@ -88,7 +94,10 @@
                 this.$store.commit('changeActiveChat', name);
                 this.activeIndex = i;
                 this.mapActive = false;
-                document.getElementById('chatboxTitle').innerHTML = name;
+                if(this.mapActive){
+                    document.getElementById('chatboxTitle').innerHTML = name;
+                }
+
             },
             showMap(){
                 this.$store.commit('changeActiveChat', null);

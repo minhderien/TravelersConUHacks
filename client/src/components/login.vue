@@ -61,14 +61,15 @@
                         email :this.email,
                         password: this.password
                     }}).then(response => {
-                    // eslint-disable-next-line no-console
                      
                         if(response.status ==200 ){
                              this.$store.commit('changeUser', response.data.name);
                              this.$store.commit('changeCountry', response.data.country);
-                             this.$router.push('Profile')
+                             this.$store.commit('changeUserId', response.data.id);
+                             this.$router.push('FriendFinder');
 
                         }
+
 
                     }).catch(error => {
                     // eslint-disable-next-line no-console
@@ -77,6 +78,7 @@
                         this.snackbar = true;
 
                 });
+
             },
             create(){
                 location.href = "/#/create"
@@ -90,14 +92,14 @@
 <style scoped>
 
     .background{
-        background-image: url("../assets/BackgroundRegister.jpeg");
+        background-image: url("../assets/BackgroundLogin.jpeg");
         background-size:     cover;                      /* <------ */
         background-repeat:   no-repeat;
         background-position: center center;
-        height: 900px;
+        height: 1000px;
     }
     .login {
-        padding-top: 20%;
+        padding-top: 15%;
         margin: auto;
         width: 50%;
         display:block

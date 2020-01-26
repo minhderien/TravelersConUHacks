@@ -69,17 +69,17 @@ router.get('/:id', async (req, res) => {
     console.log(req.params.id);
     User.findById(req.params.id, function (err, user) {
         console.log(user);
-        res.send({ name: user.name, country: user.country });
+        res.send({ name: user.name, country: user.country , id: user._id});
     });
 });
 
 // Get list of users of active conversations
 router.get('/active/conversations', async (req, res) => {
-    Conversation.find({ participants: req.user._id }) //'5e2bba66222c4f57b8e13b18'
+    Conversation.find({ participants: req.headers.userid }) //'5e2bba66222c4f57b8e13b18'
         .exec((err, conversations) => {
             if (err) {
                 res.send({ error: err });
-                return next(err);
+                return err;
             }
             console.log('conversations: ' + conversations);
 
@@ -87,7 +87,7 @@ router.get('/active/conversations', async (req, res) => {
             conversations.forEach((conversation) => {
                 conversation.participants.forEach((participantId) => {
                     // If it's not himself
-                    if (req.user._id != participantId) {
+                    if (req.headers.userid != participantId) {
                         participantsIds.push(participantId);
                     }
                 });

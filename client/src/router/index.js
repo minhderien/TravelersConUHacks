@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import profile from '../components/profile'
+import friendFinder from '../components/friendFinder'
 
 import login from "../components/login"
 import create from "../components/create"
@@ -16,9 +16,9 @@ export default new Router({
             component: home,
         },
         {
-            path: '/Profile',
-            name: 'Profile',
-            component: profile
+            path: '/friendFinder',
+            name: 'FriendFinder',
+            component: friendFinder
         },
         {
             path: '/login',

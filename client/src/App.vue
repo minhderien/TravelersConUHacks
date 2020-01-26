@@ -23,9 +23,9 @@
 
           <v-spacer></v-spacer>
           <div v-if="this.$store.getters.user">
-            <router-link :to="{name: 'Profile'}">
+            <router-link :to="{name: 'FriendFinder'}">
               <v-btn icon>
-                <v-icon>mdi-account</v-icon>
+                <v-icon>mdi-compass</v-icon>
               </v-btn>
             </router-link>
             <v-btn @click="logout()" icon>
@@ -43,7 +43,6 @@
         </v-toolbar>
       </v-card>
       <v-content>
-        <Home></Home>
         <router-view></router-view>
       </v-content>
     </div>
