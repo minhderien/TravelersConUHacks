@@ -7,11 +7,11 @@
           style="height: 300px;"
         >
                     <v-col cols="3">
-                        <div>
+                        <div v-if="mapActive" >
                        <h2>Friends List</h2>
 
 
-                        <v-list>
+                        <v-list  >
                             <v-list-item 
                             :key="i" 
                             :flat="true"
@@ -29,10 +29,10 @@
                             </v-list-item>
                         </v-list>
                         <br>
-                        <v-btn v-if="!mapActive" @click="showMap()" rounded dark color="#f57542">
-                        Back to map
+                       
+                        </div> <v-btn v-if="!mapActive" @click="showMap()" rounded dark color="#f57542">
+                        Back
                         </v-btn>
-                        </div>
                     </v-col>
                     <v-col cols="9">
                         <div v-if="mapActive">
@@ -183,6 +183,7 @@
       
                 this.activeIndex = null;
                 this.mapActive = true;
+          
             }
         },
         mounted() {
