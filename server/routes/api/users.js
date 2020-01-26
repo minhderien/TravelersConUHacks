@@ -82,25 +82,32 @@ router.post('/register', (req, res) => {
 // Get all users nearby by id
 router.get('/nearby', (req, res) => {
     User.findById(req.headers.userid, function (err, user) {
-        User.aggregate([
-            {
-                $geoNear: {
-                    near: {
-                        type: "Point",
-                        coordinates: [user.location.coordinates[0], user.location.coordinates[1]]
-                    },
-                    distanceField: "dist.calculated",
-                    maxDistance: 30000, //30 000 meters
-                    spherical: true
+        if (user) {
+            User.aggregate([
+                {
+                    $geoNear: {
+                        near: {
+                            type: "Point",
+                            coordinates: [user.location.coordinates[0], user.location.coordinates[1]]
+                        },
+                        distanceField: "dist.calculated",
+                        maxDistance: 5000, //30 000 meters
+                        spherical: true
+                    }
                 }
-            }
-        ], (err, data) => {
-            if (err) {
-                console.log('error:', err);
-                return;
-            }
-            res.send(data);
-        });
+            ], (err, data) => {
+                if (err) {
+                    console.log('error:', err);
+                    return;
+                }
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i]._id == req.headers.userid) { 
+                        delete data[i];
+                    }
+                 }
+                res.send(data);
+            });
+        }
     });
 });
 

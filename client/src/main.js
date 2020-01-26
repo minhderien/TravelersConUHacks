@@ -20,5 +20,5 @@ new Vue({
 
 Vue.use(new VueSocketIO({
   debug: true,
-  connection: 'localhost:80',
+  connection: 'localhost:5100',
 }))
