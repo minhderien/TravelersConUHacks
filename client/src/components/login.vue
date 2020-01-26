@@ -17,7 +17,7 @@
                         required
                         v-on:keyup.enter="login()"
                 ></v-text-field>
-                <v-btn @click="login()" rounded dark color="Grey">
+                <v-btn @click="login()" class="loginBtn" rounded dark color="Grey">
                     Login
                 </v-btn>
                 <v-btn @click="create()" rounded dark color="Grey">
@@ -117,8 +117,12 @@
         background-position: center center;
         height: 1000px;
     }
+    .loginBtn{
+        margin-right: 15px;
+    }
     .login {
         padding-top: 15%;
+       
         margin: auto;
         width: 50%;
         display:block
