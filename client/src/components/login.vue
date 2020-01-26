@@ -69,7 +69,7 @@
                              this.$router.push('Profile')
 
                              this.$cookie.set("TravellerConnection", response.data.id, 1);
-                              
+                            
 
                         }
 
