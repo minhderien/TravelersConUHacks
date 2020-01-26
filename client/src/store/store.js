@@ -6,7 +6,8 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
     state: {
         user: '',
-        country: ''
+        country: '',
+        message: '',
     },
     mutations: {
         changeUser(state, user){
@@ -16,11 +17,15 @@ export const store = new Vuex.Store({
 
 
             state.country = user;
+        },
+        setMessage(state, message) {
+            state.message = message;
         }
     },
     getters: {
         user: state => state.user,
-        country: state => state.country
+        country: state => state.country,
+        message: state => state.message,
     }
 
 })

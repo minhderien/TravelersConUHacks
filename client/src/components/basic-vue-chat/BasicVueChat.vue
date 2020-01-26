@@ -32,6 +32,7 @@
 </template>
 
 <script>
+/* eslint-disable no-console */
 import moment from 'moment'
 import { scrollToBottom } from '../../helpers/scroll.js'
 import MessagesList from './messages/MessagesList.vue'
@@ -85,6 +86,7 @@ export default {
     newMessage: function (newValue) {
       this.pushToFeed(newValue)
       scrollToBottom()
+      // eslint-disable-next-line no-console
     }
   },
   mounted () {
@@ -120,12 +122,18 @@ export default {
 
       scrollToBottom()
 
-      this.$emit('newOwnMessage', message)
+      this.$emit('newOwnMessage', message);
+      this.$socket.emit('sendMessage', newOwnMessage)
     },
     onOpenEmojiPicker (toggle) {
       this.setEmojiPickerToggle(toggle)
     }
-  }
+  },
+  sockets: {
+        receiveMessage: function(data) {
+          console.log('allo', data)
+        }
+    },
 }
 </script>
 
