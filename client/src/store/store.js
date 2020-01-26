@@ -6,7 +6,10 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
     state: {
         user: '',
-        country: ''
+        country: '',
+        activeChat: '',
+        activeChatId: null,
+        message: '',
     },
     mutations: {
         changeUser(state, user){

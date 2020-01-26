@@ -47,6 +47,8 @@ router.get('/logout', (req, res) => {
     res.send('logged out');
 });
 
+ 
+
 // Add user (register)
 router.post('/register', (req, res) => {
     const { name, email, password, country } = req.body;
@@ -110,7 +112,7 @@ router.get('/:id', async (req, res) => {
     console.log(req.params.id);
     User.findById(req.params.id, function (err, user) {
         console.log(user);
-        res.send({ name: user.name, country: user.country });
+        res.send({ name: user.name, country: user.country, id: req.params.id });
     });
 });
 
