@@ -1,7 +1,7 @@
 <template>
   <div
     class="input__button"
-    @click="send">
+    @click="clickButton">
     Send
   </div>
 </template>
@@ -10,13 +10,19 @@
 
 export default {
   name: 'InputButton',
+  props: {
+    newMessage: String,
+  },
   methods: {
  
     send () {
  
       this.$emit('newOwnMessage')
-    }
-  }
+    },
+    clickButton() {
+      this.$emit('newOwnMessage')
+    },
+  },
 }
 </script>
 
