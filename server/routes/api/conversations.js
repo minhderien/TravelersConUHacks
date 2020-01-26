@@ -73,6 +73,19 @@ router.get('/:conversationId', (req, res) => {
         });
 });
 
+router.get('/:participantId1/:participantId2', (req, res) => {
+    const id1 = req.params.participantId1;
+    const id2 = req.params.participantId2;
+    let participantsIds = [ id1, id2];
+    //console.log('participants', participantsIds);
+    Conversation.find({
+        'participants': { $eq: participantsIds }
+    }, function(err, conversation) {
+        console.log("conversation " + conversation);
+        res.send(conversation);
+    });
+});
+
 // New Conversation
 router.post('/new/:fromId/:recipientId', (req, res, next) => {
     const fromId = req.params.fromId;
