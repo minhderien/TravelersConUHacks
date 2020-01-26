@@ -36,7 +36,7 @@ app.listen(port, () => console.log(`Server started on port ${port}`));
 
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
-server.listen(80);
+server.listen(5100);
 
 io.on('connection', function (socket) {
     // Use socket to communicate with this particular client only, sending it it's own id

@@ -17,12 +17,20 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    location: {
+        type: { type: String },
+        coordinates: [Number]
+    },
     date: {
         type: Date,
         default: Date.Now
     }
 });
 
-const User = mongoose.model('User', UserSchema);
 
+//UserSchema.createIndex( { "location" : "2dsphere" } );
+UserSchema.index({location: '2dsphere'});
+
+
+const User = mongoose.model('User', UserSchema);
 module.exports = User;
