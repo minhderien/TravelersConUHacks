@@ -1,8 +1,9 @@
 <template>
-    <div class="login">
 
+<div class="background">
         <v-container>
-            <h2>Create</h2>
+            <div class="login">
+            <h2>Register</h2>
             <v-text-field
                     v-model="name"
                     label="Name"
@@ -29,7 +30,7 @@
             <v-btn @click="register()" rounded dark color="Grey">
                 Create Account
             </v-btn>
-
+            </div>
 
 
         </v-container>
@@ -63,7 +64,7 @@
                         console.log(response)
                         if(response.status == 200 ){
 
-                            this.$router.push('Profile')
+                            this.$router.push('FriendFinder')
                         }
 
                     }).catch(error => {
@@ -80,7 +81,19 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+    .background{
+        background-image: url("../assets/BackgroundRegister.jpg");
+        background-size:     cover;                      /* <------ */
+        background-repeat:   no-repeat;
+        background-position: center center;
+        height: 1000px;
+    }
+    .login {
+        padding-top: 15%;
+        margin: auto;
+        width: 50%;
+        display:block
+    }
     .information {
         margin: auto;
         width: 50%;
