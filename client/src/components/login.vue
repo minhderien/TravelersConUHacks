@@ -75,7 +75,6 @@
                            
                         }
                         // eslint-disable-next-line no-console
-                           console.log(this.location)
                             linkLocation = "http://localhost:5000/api/users/location/" + response.data.id + "/" + parseFloat(this.location.coords.latitude) + "/" + parseFloat(this.location.coords.longitude)
                             alert(linkLocation);    
                             axios.post(linkLocation, null, {credentials: 'include', data : {} }).catch();  
@@ -98,7 +97,8 @@
                          
             },
             create(){
-                location.href = "/#/create"
+                location.href = "/#/create";
+                this.$store.commit('resetMarkers');
             }
 
             

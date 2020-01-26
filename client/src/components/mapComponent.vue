@@ -18,6 +18,7 @@
 <script>
 export default {
   name: "mapComponent",
+    props: ['friends'],
   data() {
     return {
       // default to Montreal to keep it simple
@@ -28,9 +29,23 @@ export default {
       currentPlace: null
     };
   },
-
+  created: function(){
+      var markers = this.$store.getters.markers;
+      var objs = markers.map(JSON.parse);
+      // eslint-disable-next-line no-console
+      for(var i =0 ; i < objs.length;i++){
+          this.addMarker(objs[i].lat, objs[i].lng)
+      }
+  },
   mounted() {
     this.geolocate();
+
+
+
+
+
+
+
   },
 
   methods: {
@@ -48,7 +63,16 @@ export default {
     },
 
     addMarker(lat,lng) {
-        this.markers.push({lat, lng});
+        // eslint-disable-next-line no-console
+        console.log(lat + " " + lng);
+        var object = {
+            "lat" : lat,
+            "lng" : lng
+        };
+        this.markers.push({position : object});
+        // eslint-disable-next-line no-console
+        console.log(this.markers)
+
     },
 
     geolocate: function() {

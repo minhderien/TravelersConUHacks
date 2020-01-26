@@ -12,6 +12,7 @@ export const store = new Vuex.Store({
         userId: '',
         users: {},
         message: '',
+        markers : []
     },
     mutations: {
         changeUser(state, user){
@@ -38,7 +39,15 @@ export const store = new Vuex.Store({
         },
         addUsers(state, val){
             state.users = state.users.concat(val)
+        },
+        changeMarkers(state, val){
+            state.markers = state.markers.concat(val);
+        },
+        resetMarkers(state){
+            state.markers = []
         }
+
+
     },
     getters: {
         users : state => state.users,
@@ -47,6 +56,7 @@ export const store = new Vuex.Store({
         activeChat: state => state.activeChat,
         activeChatId: state => state.activeChatId,
         userId: state => state.userId,
+        markers: state => state.markers,
     }
 
 })

@@ -36,7 +36,7 @@
                     </v-col>
                     <v-col cols="9">
                         <div v-if="mapActive">
-                        <mapComponent></mapComponent>
+                        <mapComponent ref="mapComponentRef"></mapComponent>
                         </div>
                          
                             <div v-if="!mapActive">
@@ -57,6 +57,7 @@
     import BasicVueChat from './basic-vue-chat/BasicVueChat'
     import axios from 'axios'
     export default {
+
         name: 'profile',
         components : {
             mapComponent,
@@ -64,16 +65,13 @@
         },
         created : function(){
             this.getUsers();
-            // eslint-disable-next-line no-console
-            console.log(this.friends)
-        },
+            //eslint-disable-next-line no-console
 
-        props: {
         },
         data() {
             return {
                 cards: [],
-                mapActive: true,
+                mapActive: false,
                 activeIndex: null,
                 friends: [],
                 data: false,
@@ -84,8 +82,6 @@
             getUsers(){
                 var promise1 = axios.get('http://localhost:5000/api/users/active/conversations', {headers: {userId: this.$store.getters.userId}})
                     .then(function (res) {
-                        // eslint-disable-next-line no-console
-                        console.log(res);
                         return res.data
 
 
@@ -93,8 +89,6 @@
                     });
                 var promise2 = axios.get('http://localhost:5000/api/users/nearby/', {headers: {userId: this.$store.getters.userId}})
                     .then(function (res) {
-                        // eslint-disable-next-line no-console
-                        console.log(res);
                         return res.data
 
 
@@ -102,27 +96,32 @@
                 var self = this;
                 Promise.all([promise1, promise2]).then(function (values){
                     var arr = [];
-                    // eslint-disable-next-line no-console
-                    console.log("values1")
-                    // eslint-disable-next-line no-console
-                    console.log(values[0])
-                    // eslint-disable-next-line no-console
-                    console.log("values2")
-                    // eslint-disable-next-line no-console
-                    console.log(values[1])
                     if(values[0][0] != null && values[1][0] != null){
                          arr = values[0].concat(values[1]);
                     }else{
                         arr = values[0]
                     }
 
-                    // eslint-disable-next-line no-console
-                    console.log(arr);
+
                     self.friends = arr.reduce((unique, o) => {
                         if(!unique.some(obj => obj.name === o.name && obj.email === o.email)) {
                             unique.push(o);
+                            var coordinates = {
+                                "lat" : o.location.coordinates[0],
+                                "lng" : o.location.coordinates[1]
+                            }
+                            // eslint-disable-next-line no-console
+                            console.log(coordinates);
+                            self.$store.commit('changeMarkers', JSON.stringify(coordinates));
+
+
                         }
-                        // eslint-disable-next-line no-console
+
+
+
+                        setTimeout(function(){
+                            self.mapActive = true;
+                        },2000);
                         return unique;
                     },[]);
 
