@@ -76,7 +76,6 @@
                         }
                         // eslint-disable-next-line no-console
                             linkLocation = "http://localhost:5000/api/users/location/" + response.data.id + "/" + parseFloat(this.location.coords.latitude) + "/" + parseFloat(this.location.coords.longitude)
-                            alert(linkLocation);    
                             axios.post(linkLocation, null, {credentials: 'include', data : {} }).catch();  
 
                     }).catch(error => {

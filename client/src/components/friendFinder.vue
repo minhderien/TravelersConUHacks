@@ -40,7 +40,7 @@
                         </div>
                          
                             <div v-if="!mapActive">
-                        <BasicVueChat></BasicVueChat>
+                        <BasicVueChat :activeConversation="activeConversation"></BasicVueChat>
                             </div>
                        
                     </v-col>
@@ -53,6 +53,7 @@
 </template>
 
 <script>
+    /* eslint-disable no-console */
     import mapComponent from "./mapComponent";
     import BasicVueChat from './basic-vue-chat/BasicVueChat'
     import axios from 'axios'
@@ -65,8 +66,8 @@
         },
         created : function(){
             this.getUsers();
-            //eslint-disable-next-line no-console
-
+            // eslint-disable-next-line no-console
+            console.log(this.friends)
         },
         data() {
             return {
@@ -76,6 +77,7 @@
                 friends: [],
                 data: false,
                 loaded : false,
+                activeConversation: null,
             }
         },
         methods: {
@@ -83,9 +85,6 @@
                 var promise1 = axios.get('http://localhost:5000/api/users/active/conversations', {headers: {userId: this.$store.getters.userId}})
                     .then(function (res) {
                         return res.data
-
-
-
                     });
                 var promise2 = axios.get('http://localhost:5000/api/users/nearby/', {headers: {userId: this.$store.getters.userId}})
                     .then(function (res) {
@@ -131,7 +130,37 @@
                 // eslint-disable-next-line no-console
 
             },
-            showChat(i,name){
+            async showChat(i,name){
+                // eslint-disable-next-line no-console
+                let friendId = this.friends[i]._id;
+                let userId = this.$cookie.get("TravellerConnection");
+                let isConversation = false;
+                let activeConvoId;
+
+               let conversation = await axios.get(`http://localhost:5000/api/conversations/${userId}/${friendId}`);
+
+
+                const {data} = conversation;
+                if(data.length == 0) { // create convo
+                    let newConvo = await axios.post(`http://localhost:5000/api/conversations/new/${userId}/${friendId}`);
+                    self.activeConversation = newConvo;
+                    isConversation = true;
+                    activeConvoId = newConvo._id;
+                }
+
+                else {
+                    self.activeConversation = data[0];
+                    console.log('newConvo',data[0]);
+                    this.$store.commit('changeActiveChatId', data[0]._id);
+                    isConversation = true;
+                    activeConvoId = data[0]._id;
+                }
+
+                if(isConversation) {
+                    const messages = await axios.get(`http://localhost:5000/api/conversations/${activeConvoId}`);
+                    console.log('mmmm', messages.data.messages);
+                    this.$store.commit('changeActiveMessages', messages.data.messages);
+                }
 
                 this.$store.commit('changeActiveChat', name);
                 this.activeIndex = i;

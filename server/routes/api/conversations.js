@@ -56,6 +56,7 @@ router.get('/', (req, res) => {
 
 // Get a conversation
 router.get('/:conversationId', (req, res) => {
+    console.log('/conversations/' + req.params.conversationId)
     Message.find({ conversationId: req.params.conversationId })
         .select('createdAt body author')
         .sort('-createdAt')
@@ -68,9 +69,21 @@ router.get('/:conversationId', (req, res) => {
                 res.send({ error: err });
                 return next(err);
             }
-
-            return res.status(200).json({ conversation: messages });
+            return res.status(200).json({ messages: messages });
         });
+});
+
+router.get('/:participantId1/:participantId2', (req, res) => {
+    const id1 = req.params.participantId1;
+    const id2 = req.params.participantId2;
+    let participantsIds = [ id1, id2];
+    //console.log('participants', participantsIds);
+    Conversation.find({
+        'participants': { $eq: participantsIds }
+    }, function(err, conversation) {
+        console.log("conversation " + conversation);
+        res.status(200).json(conversation);
+    });
 });
 
 // New Conversation
@@ -82,10 +95,10 @@ router.post('/new/:fromId/:recipientId', (req, res, next) => {
         return next();
     }
 
-    if (!req.body.composedMessage) {
-        res.status(422).send({ error: 'Please enter a message.' });
-        return next();
-    }
+    // if (!req.body.composedMessage) {
+    //     res.status(422).send({ error: 'Please enter a message.' });
+    //     return next();
+    // }
 
     const conversation = new Conversation({
 
@@ -98,35 +111,36 @@ router.post('/new/:fromId/:recipientId', (req, res, next) => {
             return next(err);
         }
 
-        const message = new Message({
-            conversationId: newConversation._id,
-            body: req.body.composedMessage,
-            author: fromId//req.user._id
-        });
+        // const message = new Message({
+        //     conversationId: newConversation._id,
+        //     body: req.body.composedMessage,
+        //     author: fromId//req.user._id
+        // });
 
-        message.save((err, newMessage) => {
-            if (err) {
-                res.send({ error: err });
-                return next(err);
-            }
+        // message.save((err, newMessage) => {
+        //     if (err) {
+        //         res.send({ error: err });
+        //         return next(err);
+        //     }
 
-            return res.status(200).json({ message: 'Conversation started!', conversationId: conversation._id });
-        });
+        //     return res.status(200).json({ message: 'Conversation started!', conversationId: conversation._id });
+        // });
     });
 });
 
 // Reply to conversation
 router.post('/:conversationId', (req, res, next) => {
+    console.log("test : ",req)
     const reply = new Message({
         conversationId: req.params.conversationId,
         body: req.body.composedMessage,
-        author: req.user._id//
+        author: req.body.idAuthor//
     });
 
     reply.save((err, sentReply) => {
         if (err) {
             res.send({ error: err });
-            return next(err);
+            return next(err); 
         }
 
         return res.status(200).json({ message: 'Reply successfully sent!' });

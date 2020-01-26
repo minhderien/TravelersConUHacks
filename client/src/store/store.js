@@ -12,7 +12,9 @@ export const store = new Vuex.Store({
         userId: '',
         users: {},
         message: '',
-        markers : []
+        markers : [],
+        messages: [],
+        conversationId: null
     },
     mutations: {
         changeUser(state, user){
@@ -28,7 +30,6 @@ export const store = new Vuex.Store({
             state.activeChat = val;
         },
         changeActiveChatId(state, val){
-           
             state.activeChatId = val;
         },
         changeUserId(state, val){
@@ -45,9 +46,12 @@ export const store = new Vuex.Store({
         },
         resetMarkers(state){
             state.markers = []
+        },
+        changeActiveMessages(state, val) {
+            // eslint-disable-next-line no-console
+            console.log('changeActiveMessages', val)
+            state.messages = val;
         }
-
-
     },
     getters: {
         users : state => state.users,
@@ -56,6 +60,7 @@ export const store = new Vuex.Store({
         activeChat: state => state.activeChat,
         activeChatId: state => state.activeChatId,
         userId: state => state.userId,
+        messages: state => state.messages,
         markers: state => state.markers,
     }
 

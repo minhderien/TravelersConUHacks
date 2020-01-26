@@ -138,7 +138,7 @@
                                 </v-card-actions>
 
 
-                            </v-list-item>
+                                
 
                         </v-card>
                     </div>
