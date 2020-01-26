@@ -89,9 +89,6 @@
                         // eslint-disable-next-line no-console
                         console.log(res);
                         return res.data
-
-
-
                     });
                 var promise2 = axios.get('http://localhost:5000/api/users/nearby/', {headers: {userId: this.$store.getters.userId}})
                     .then(function (res) {
@@ -138,6 +135,8 @@
                 // eslint-disable-next-line no-console
                 let friendId = this.friends[i]._id;
                 let userId = this.$cookie.get("TravellerConnection");
+                let isConversation = false;
+                let activeConvoId;
                 
                let conversation = await axios.get(`http://localhost:5000/api/conversations/${userId}/${friendId}`);
                
@@ -146,13 +145,23 @@
                 if(data.length == 0) { // create convo
                     let newConvo = await axios.post(`http://localhost:5000/api/conversations/new/${userId}/${friendId}`);
                     self.activeConversation = newConvo;
+                    
+                    isConversation = true;
+                    activeConvoId = newConvo._id;
                 }
 
                 else {
                     self.activeConversation = data[0];
-                    this.$store.commit('changeConversationId', data[0]);
-                      this.$store.commit('changeActiveChatId', friendId);
+                    this.$store.commit('changeActiveChatId', data[0]._id);
+                    isConversation = true;
+                    activeConvoId = data[0]._id;
                 }
+
+                if(isConversation) {
+                    const messages = await axios.get(`http://localhost:5000/api/conversations/${activeConvoId}`);
+                    this.$store.commit('changeActiveMessages', messages.data.messages);
+                }
+
                 this.$store.commit('changeActiveChat', name);
                 this.activeIndex = i;
                 this.mapActive = false;

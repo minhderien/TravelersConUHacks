@@ -12,6 +12,7 @@ export const store = new Vuex.Store({
         userId: '',
         users: {},
         message: '',
+        messages: []
         conversationId: null
     },
     mutations: {
@@ -28,7 +29,6 @@ export const store = new Vuex.Store({
             state.activeChat = val;
         },
         changeActiveChatId(state, val){
-           
             state.activeChatId = val;
         },
         changeUserId(state, val){
@@ -39,9 +39,6 @@ export const store = new Vuex.Store({
         },
         addUsers(state, val){
             state.users = state.users.concat(val)
-        },
-        changeConversationId(state, val){
-            state.conversationId = val;
         }
     },
     getters: {
@@ -51,7 +48,6 @@ export const store = new Vuex.Store({
         activeChat: state => state.activeChat,
         activeChatId: state => state.activeChatId,
         userId: state => state.userId,
-        conversationId: state => state.conversationId,
     }
 
 })

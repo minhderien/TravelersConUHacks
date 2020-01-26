@@ -40,7 +40,7 @@ export default {
       required: false
     },
     authorId: {
-      type: Number,
+      type: String,
       default: 0,
       required: false
     }
