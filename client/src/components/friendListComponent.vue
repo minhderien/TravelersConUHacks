@@ -44,5 +44,11 @@ export default {
                       }
                     });
  },
+ mounted(){
+   alert(this.$cookie.get("TravellerConnection"));
+    if(this.$cookie.get("TravellerConnection") == null){
+      this.$router.push("/login");
+    }
+ }
 };
 </script>
