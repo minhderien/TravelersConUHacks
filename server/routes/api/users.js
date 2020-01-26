@@ -12,6 +12,36 @@ router.post('/login',
         res.redirect('/api/users/' + req.user.id);
     });
 
+// Save user current location
+router.post('/location/:id/:latitude/:longitude', (req, res) => {
+
+    const latitude = req.params.latitude;
+    const longitude = req.params.longitude;
+    const user_id = req.params.id;
+    const location = { "type": "Point", "coordinates": [latitude, longitude] }; //40.730610, -73.935242
+
+    console.log('location', location);
+
+    User.findOne({ _id: user_id }).then(user => {
+        if (user) {
+            user.location = location;
+            user.save()
+                .then(user => {
+                    return res.status(200).json({ message: 'Position has been setted' });
+                })
+                .catch(err => console.log(err));
+        } else {
+            res.send('User does not exist');
+        }
+
+    });
+});
+
+// Get a user's current position
+router.get('/position/:id', (req, res) => {
+
+});
+
 router.get('/logout', (req, res) => {
     req.logout();
     res.send('logged out');
@@ -44,25 +74,36 @@ router.post('/register', (req, res) => {
             });
 
         } else {
-            res.send('User already exists');
+            return res.send('User already exists');
         }
     });
-
-
 });
 
-// Get users (users nearby)
-router.get('/', async (req, res) => {
-    User.find({}, function (err, users) {
-        var userMap = {};
-
-        users.forEach(function (user) {
-            userMap[user._id] = user;
+// Get all users nearby by id
+router.get('/nearby/:id', (req, res) => {
+    User.findById(req.params.id, function (err, user) {
+        User.aggregate([
+            {
+                $geoNear: {
+                    near: {
+                        type: "Point",
+                        coordinates: [user.location.coordinates[0], user.location.coordinates[1]]
+                    },
+                    distanceField: "dist.calculated",
+                    maxDistance: 30000, //30 000 meters
+                    spherical: true
+                }
+            }
+        ], (err, data) => {
+            if (err) {
+                console.log('error:', err);
+                return;
+            }
+            res.send(data);
         });
-
-        res.send(userMap);
     });
 });
+
 
 // Get user by ID
 router.get('/:id', async (req, res) => {
@@ -74,7 +115,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Get list of users of active conversations
-router.get('/active/conversations', async (req, res) => {
+router.get('/active/conversations', (req, res) => {
     Conversation.find({ participants: req.user._id }) //'5e2bba66222c4f57b8e13b18'
         .exec((err, conversations) => {
             if (err) {
