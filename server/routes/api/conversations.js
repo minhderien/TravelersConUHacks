@@ -82,7 +82,7 @@ router.get('/:participantId1/:participantId2', (req, res) => {
         'participants': { $eq: participantsIds }
     }, function(err, conversation) {
         console.log("conversation " + conversation);
-        res.send(conversation);
+        res.status(200).json(conversation);
     });
 });
 
@@ -95,10 +95,10 @@ router.post('/new/:fromId/:recipientId', (req, res, next) => {
         return next();
     }
 
-    if (!req.body.composedMessage) {
-        res.status(422).send({ error: 'Please enter a message.' });
-        return next();
-    }
+    // if (!req.body.composedMessage) {
+    //     res.status(422).send({ error: 'Please enter a message.' });
+    //     return next();
+    // }
 
     const conversation = new Conversation({
 
@@ -111,20 +111,20 @@ router.post('/new/:fromId/:recipientId', (req, res, next) => {
             return next(err);
         }
 
-        const message = new Message({
-            conversationId: newConversation._id,
-            body: req.body.composedMessage,
-            author: fromId//req.user._id
-        });
+        // const message = new Message({
+        //     conversationId: newConversation._id,
+        //     body: req.body.composedMessage,
+        //     author: fromId//req.user._id
+        // });
 
-        message.save((err, newMessage) => {
-            if (err) {
-                res.send({ error: err });
-                return next(err);
-            }
+        // message.save((err, newMessage) => {
+        //     if (err) {
+        //         res.send({ error: err });
+        //         return next(err);
+        //     }
 
-            return res.status(200).json({ message: 'Conversation started!', conversationId: conversation._id });
-        });
+        //     return res.status(200).json({ message: 'Conversation started!', conversationId: conversation._id });
+        // });
     });
 });
 
