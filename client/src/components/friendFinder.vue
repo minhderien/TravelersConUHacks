@@ -63,32 +63,9 @@
              BasicVueChat,
         },
         created : function(){
-            var self = this;
-            axios.get('http://localhost:5000/api/users/active/conversations', {headers: {userId: this.$store.getters.userId}})
-                .then(function (res) {
-                    // eslint-disable-next-line no-console
-
-                    self.friends = res.data;
-
-                    // eslint-disable-next-line no-console
-                    console.log(res.data);
-
-
-                });
-            axios.get('http://localhost:5000/api/users/nearby/', {headers: {userId: this.$store.getters.userId}})
-                .then(function (res) {
-                    // eslint-disable-next-line no-console
-
-                    self.friends.concat(res.data);
-                    // eslint-disable-next-line no-console
-                    console.log(res.data);
-
-
-                });
-            setTimeout(function() {
-                // eslint-disable-next-line no-console
-                console.log(self.friends);
-            },5000)
+            this.getUsers();
+            // eslint-disable-next-line no-console
+            console.log(this.friends)
         },
 
         props: {
@@ -98,12 +75,63 @@
                 cards: [],
                 mapActive: true,
                 activeIndex: null,
-                friends: null,
+                friends: [],
                 data: false,
                 loaded : false,
             }
         },
         methods: {
+            getUsers(){
+                var promise1 = axios.get('http://localhost:5000/api/users/active/conversations', {headers: {userId: this.$store.getters.userId}})
+                    .then(function (res) {
+                        // eslint-disable-next-line no-console
+                        console.log(res);
+                        return res.data
+
+
+
+                    });
+                var promise2 = axios.get('http://localhost:5000/api/users/nearby/', {headers: {userId: this.$store.getters.userId}})
+                    .then(function (res) {
+                        // eslint-disable-next-line no-console
+                        console.log(res);
+                        return res.data
+
+
+                    });
+                var self = this;
+                Promise.all([promise1, promise2]).then(function (values){
+                    var arr = [];
+                    // eslint-disable-next-line no-console
+                    console.log("values1")
+                    // eslint-disable-next-line no-console
+                    console.log(values[0])
+                    // eslint-disable-next-line no-console
+                    console.log("values2")
+                    // eslint-disable-next-line no-console
+                    console.log(values[1])
+                    if(values[0][0] != null && values[1][0] != null){
+                         arr = values[0].concat(values[1]);
+                    }else{
+                        arr = values[0]
+                    }
+
+                    // eslint-disable-next-line no-console
+                    console.log(arr);
+                    self.friends = arr.reduce((unique, o) => {
+                        if(!unique.some(obj => obj.name === o.name && obj.email === o.email)) {
+                            unique.push(o);
+                        }
+                        // eslint-disable-next-line no-console
+                        return unique;
+                    },[]);
+
+                })
+
+
+                // eslint-disable-next-line no-console
+
+            },
             showChat(i,name){
 
                 this.$store.commit('changeActiveChat', name);
